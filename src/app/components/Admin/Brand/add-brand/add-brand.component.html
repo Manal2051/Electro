@@ -1,0 +1,48 @@
+<section class="container my-3">
+  <div class="shadow-lg p-5">
+    <h3>Add New Brand</h3>
+    <div class="row">
+      <div class="col-md-6">
+
+        <form >
+          <div class="mb-2 form-item">
+            <label for="name"> Name :</label>
+            <input formControlName="name" type="text" id="name" class="form-control" />
+
+
+            <div 
+              class="alert alert-danger p-1  small w-50 mx-auto">
+              <p class="mb-0" >Name of Brand is
+                Required</p>
+            </div>
+          </div>
+
+          <div class="mb-2 form-item">
+            <label for="categoryId">Category:</label>
+            <select formControlName="categoryId" id="categoryId" class="form-select">
+
+              <option>category</option>
+            </select>
+            <div
+              class="alert alert-danger p-1 small w-50 mx-auto">
+              <p class="mb-0" >Category is Required</p>
+            </div>
+          </div>
+
+
+
+
+          <button class="rounded mt-3 d-block ms-auto btn btn-outline-success ">Add New
+            Brand </button>
+        </form>
+
+
+      </div>
+      <div class="col-md-6">
+        <img src="assets/addBrand.jpeg" alt="" class="w-100">
+      </div>
+    </div>
+  </div>
+
+
+</section>

@@ -1,0 +1,47 @@
+<section class="container my-3">
+<div class="shadow-lg p-5">
+  <h3>Add New Category</h3>
+  <div class="row">
+      <div class="col-md-6">
+
+          <form >
+              <div class="mb-2 form-item">
+                  <label for="name"> Name :</label>
+                  <input formControlName="name" type="text" id="name" class="form-control" />
+
+
+                  <div 
+                      class="alert alert-danger p-1  small w-50 mx-auto">
+                      <p class="mb-0" >Name of Category is
+                          Required</p>
+                  </div>
+              </div>
+
+              <div class="mb-2 form-item">
+                <label for="brandId">Brand:</label>
+                <select formControlName="brandId" id="brandId" class="form-select">
+
+                  <option >brand.name</option>
+                </select>
+                <div 
+                     class="alert alert-danger p-1 small w-50 mx-auto">
+                  <p class="mb-0" >Brand is Required</p>
+                </div>
+              </div>
+
+
+            <button class="rounded mt-3 d-block ms-auto btn btn-outline-success ">Add New
+              Category </button>
+
+
+          </form>
+
+
+      </div>
+      <div class="col-md-6">
+        <img src="assets/category.webp" alt="" class="w-100">
+      </div>
+  </div>
+</div>
+
+</section>

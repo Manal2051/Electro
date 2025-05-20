@@ -1,0 +1,48 @@
+@if (detailsProduct) {
+  <div class="container-fluid">
+
+  <div class="row d-flex  align-items-center shadow-lg ">
+     <h3 class="text-center mt-5 text-main">Product Details</h3>
+
+  <div class="col-4">
+    <img [src]="detailsProduct.image" [alt]="detailsProduct.name" height="350" class="rounded-1 w-100 " />
+  </div>
+
+
+  <div class="col-8 ">
+<div class="m-5 p-3 ">
+  <p class="text-sm  mb-1">Category: <span class="text-black font-medium">{{detailsProduct.categoryName}}</span></p>
+    <p class="text-sm  mb-1">Brand: <span class="text-black font-medium">{{detailsProduct.brandName}}</span></p>
+    <h2 class="text-3xl font-bold text-gray-800 leading-tight">
+    {{detailsProduct.name}}
+    </h2>
+
+
+    <p class=" font-medium">Availability: <span class="text-main">{{detailsProduct.stockAmount }} in stock</span></p>
+
+    <ul class="list-disc pl-5 text-gray-700 space-y-1 text-sm">
+      <li>{{detailsProduct?.description?.split(',',1)?.slice()}}</li>
+      <li>{{detailsProduct?.description?.split(',',2)?.splice(1)}}</li>
+      <li>{{detailsProduct?.description?.split(',')?.splice(2)}}</li>
+    </ul>
+
+
+
+    <div class="d-flex align-items-baseline ">
+      <span class=" fs-2 font-size-20 text-red text-decoration-none mr-2">{{detailsProduct.price-detailsProduct.price*detailsProduct.discountPercentage/100|currency:'EGP'}} </span>
+      <span class=" text-decoration-line-through  ">{{detailsProduct.price|currency:'EGP' }} </span>
+
+    </div>
+
+    <button class="btn btn-main w-25 pt-1">
+      Add to Cart
+    </button>
+</div>
+
+  </div>
+</div>
+</div>
+
+}
+
+

@@ -1,0 +1,88 @@
+<section class="my-5">
+  <h3 class="text-center mb-4">Product List</h3>
+  <div class="container">
+    <!-- <input  type="search" placeholder="Search by Name ...."  class="form-control w-50 mx-auto my-2"> -->
+<div class="search-container d-flex  col-6 mx-auto my-2">
+  <input [(ngModel)]="_searchName" type="text" class="search-input" placeholder="Search By Name ..........">
+
+  <button class="search-button">
+    <i class="fas fa-search"></i>
+  </button>
+</div>
+
+    <div class="row g-4">
+      @for (product of productsList.slice(0,8)|search:_searchName; track product.id) {
+        <div class="col-md-3">
+          <div class="card h-100 shadow-sm product-card " >
+            <img [src]="product.image" class="card-img-top w-100 h-75" [alt]="product.name" [routerLink]="['/details',product.name]" routerLinkActive="router-link-active" />
+            <div class="card-body">
+             <div [routerLink]="['/details',product.name]" routerLinkActive="router-link-active" >
+                <h5 class="card-title">{{product.name.split(" ",2).join("")}}</h5>
+              <h6 class="text-secondary fs-6">{{product.categoryName}}</h6>
+
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <span class="fw-bold ">{{product.price |currency:'EGP'}} </span>
+
+
+              </div>
+             </div>
+              <button class="btn btn-main w-100 pt-1">Add To Card</button>
+            </div>
+          </div>
+        </div>
+
+      }
+    </div>
+  </div>
+</section>
+
+<!-- <section class="my-5">
+
+  <div class="container">
+<div class="search-container d-flex  col-6 mx-auto my-2">
+  <input [(ngModel)]="_searchBrand" type="text" class="search-input" placeholder="Search By Name ..........">
+  <select class="search-select">
+    <option value="Apple"> Apple</option>
+    <option value="JBL"> JBL</option>
+    <option value="Gaming Consoles">Gaming Consoles</option>
+  </select>
+
+  <button class="search-button">
+    <i class="fas fa-search"></i>
+  </button>
+</div>
+
+    <div class="row g-4">
+      @for (product of productsList.slice(0,6)|search:_searchName; track product.id) {
+        <div class="col-md-3">
+          <div class="card h-100 shadow-sm product-card " >
+            <img [src]="product.image" class="card-img-top w-100 h-75" [alt]="product.name" [routerLink]="['/details',product.name]" routerLinkActive="router-link-active" />
+            <div class="card-body">
+             <div [routerLink]="['/details',product.name]" routerLinkActive="router-link-active" >
+                <h5 class="card-title">{{product.name.split(" ",2).join("")}}</h5>
+              <h6 class="text-secondary fs-6">{{product.categoryName}}</h6>
+
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <span class="fw-bold ">{{product.price |currency:'EGP'}} </span>
+
+
+              </div>
+             </div>
+              <button class="btn btn-main w-100 pt-1">Add To Card</button>
+            </div>
+          </div>
+        </div>
+
+      }
+    </div>
+  </div>
+</section> -->
+
+
+
+
+
+
+
+
+<!--  -->

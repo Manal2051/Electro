@@ -1,0 +1,40 @@
+<div class="product-dashboard bg-info">
+  <div class="d-flex justify-content-between ">
+
+    <h2 class="fs-2 fw-bolder my-4">Brands Dashboard</h2>
+
+    <button  type="button" [routerLink]="['/dashboard/ViewAllBrand/addBrand']"
+      class="btn text-white fw-bolder fs-5 p-3  rounded-3" style="background-color:#2a2185 ;"> Add New Brand</button>
+
+  </div>
+
+
+  <div >Loading Brands...</div>
+
+  <div  class="error-message"> error </div>
+
+  <table class="w-50 mx-auto">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr >
+        <td> Brand</td>
+        <td> Brand</td>
+
+        <td>
+          <button type="button" class="btn btn-coral mx-2" > Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div >
+    No Brands found.
+  </div>
+</div>
