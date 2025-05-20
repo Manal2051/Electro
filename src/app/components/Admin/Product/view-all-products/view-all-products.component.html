@@ -1,0 +1,72 @@
+<div class="product-dashboard">
+  <div class="d-flex justify-content-between">
+
+    <div>
+          <h2 class="fs-2 fw-bolder my-4">Product Dashboard</h2>
+
+ <input [(ngModel)]="searchTerm"  (input)="filterProducts()"  class="form-control" placeholder="search" type="search" name="" id=""> 
+    </div>
+
+    <div>
+       <button [routerLink]="['/dashboard/ViewAllProducts/addProduct']" type="button"
+      class="btn text-white fw-bolder fs-5 p-3  rounded-3" style="background-color:#2a2185 ;"> Add New Product</button>
+
+    </div>
+
+
+
+   
+  </div>
+
+
+  @if(productsList.length < 0){
+    <div >Loading products...</div>
+  }
+
+
+  <table>
+    <thead>
+      <tr>
+
+        <th>Name</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Brand</th>
+        <th>In Stock</th>
+        <th><div class=" d-flex justify-content-between">  Action</div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (product of filteredProducts; track $index) {
+
+        <tr >
+
+        <td> {{product.name}} </td>
+        <td>{{product.price}}</td>
+        <td> {{product.categoryName}} </td>
+        <td> {{product.brandName}} </td>
+        <td> {{product.stockAmount}} </td>
+        <td>
+          <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-blue  "
+            [routerLink]="['/dashboard/ViewAllProducts/updateProduct',product.id]"> Update</button>
+          <button type="button" class="btn btn-teal  "
+            [routerLink]="['/dashboard/ViewAllProducts/productDetails']"> Details</button>
+          <button type="button" class="btn btn-coral " > Delete</button>
+          </div>
+    
+        </td>
+      </tr>
+
+      }
+   
+    </tbody>
+  </table>
+
+@if(productsList.length == 0){
+    <div >
+    No products found.
+  </div>
+}
+</div>

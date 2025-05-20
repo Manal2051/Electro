@@ -1,0 +1,45 @@
+<div class="product-dashboard">
+  <div class="d-flex justify-content-between">
+
+    <h2 class="fs-2 fw-bolder my-4">category Dashboard</h2>
+
+    <button [routerLink]="['/dashboard/ViewAllCategory/addCategory']" type="button"
+      class="btn text-white fw-bolder fs-5 p-3  rounded-3" style="background-color:#2a2185 ;"> Add New Category</button>
+
+  </div>
+
+
+  <div >Loading categories...</div>
+
+  <div > error </div>
+
+  <table  class="w-50 mx-auto">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Action</th>
+
+    </thead>
+    <tbody>
+<!-- 
+    @for (item of items; track $index) {
+
+      <tr >
+        <td> category.id </td>
+        <td>category.name </td>
+
+
+        <td>
+          <button type="button" class="btn btn-coral mx-2" > Delete</button>
+        </td>
+      </tr>
+    } -->
+
+    </tbody>
+  </table>
+
+  <div >
+    No categories found.
+  </div>
+</div>

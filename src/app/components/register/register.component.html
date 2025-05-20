@@ -1,0 +1,140 @@
+<div class="register-container   w-50 mx-auto p-4 m-3 shadow-lg rounded-4">
+  <h2>Register</h2>
+
+  <form [formGroup]="registerForm" (ngSubmit)="RegisterSubmit()">
+    <div class="my-2">
+      <label for="firstName">First Name</label>
+      <input
+        formControlName="firstName"
+        type="text"
+        id="firstName"
+        class="form-control"
+        placeholder="Enter your first name"
+      />
+      @if (registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched) {
+        <div class="alert alert-danger w-100">
+          @if(registerForm.get('firstName')?.getError('required')){
+            <p class="m-0">First name is required</p>
+          }
+          @else if (registerForm.get('firstName')?.getError('minlength')) {
+            <p class="m-0">First name must be at least 3 characters</p>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Last Name -->
+    <div class="my-2">
+      <label for="lastName">Last Name</label>
+      <input
+        formControlName="lastName"
+        type="text"
+        id="lastName"
+        class="form-control"
+        placeholder="Enter your last name"
+      />
+      @if (registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched) {
+        <div class="alert alert-danger w-100">
+          @if(registerForm.get('lastName')?.getError('required')){
+            <p class="m-0">Last name is required</p>
+          }
+          @else if (registerForm.get('lastName')?.getError('minlength')) {
+            <p class="m-0">Last name must be at least 3 characters</p>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Username -->
+    <div class="my-2">
+      <label for="userName">Username</label>
+      <input
+        formControlName="userName"
+        type="text"
+        id="userName"
+        class="form-control"
+        placeholder="Enter your username"
+      />
+      @if (registerForm.get('userName')?.invalid && registerForm.get('userName')?.touched) {
+        <div class="alert alert-danger w-100">
+          @if(registerForm.get('userName')?.getError('required')){
+            <p class="m-0">Username is required</p>
+          }
+          @else if (registerForm.get('userName')?.getError('minlength')) {
+            <p class="m-0">Username must be at least 3 characters</p>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Email -->
+    <div class="my-2">
+      <label for="email">Email</label>
+      <input
+        formControlName="email"
+        type="email"
+        id="email"
+        class="form-control"
+        placeholder="Enter your email"
+      />
+      @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+        <div class="alert alert-danger w-100">
+          @if(registerForm.get('email')?.getError('required')){
+            <p class="m-0">Email is required</p>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Password -->
+    <div class="my-2">
+      <label for="password">Password</label>
+      <input
+        formControlName="password"
+        type="password"
+        id="password"
+        class="form-control"
+        placeholder="Enter your password"
+      />
+      @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+        <div class="alert alert-danger w-100">
+          @if(registerForm.get('password')?.getError('required')){
+            <p class="m-0">Password is required</p>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="my-2">
+      <label for="confirmNewPassword">Confirm Password</label>
+      <input
+        formControlName="confirmNewPassword"
+        type="password"
+        id="confirmNewPassword"
+        class="form-control"
+        placeholder="Confirm your password"
+      />
+      @if (registerForm.get('confirmNewPassword')?.touched && registerForm.get('confirmNewPassword')?.invalid) {
+        <div class="alert alert-danger w-100">
+          @if(registerForm.get('confirmNewPassword')?.getError('passwordMismatch')){
+            <p class="m-0">Passwords do not match</p>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Error message from backend -->
+    <div *ngIf="msgErro" class="alert alert-danger w-100">
+      {{ msgErro }}
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="btn main-background-yellow border-0 fw-bolder text-light" [disabled]="isLoding || registerForm.invalid">
+      <span *ngIf="isLoding" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      {{ isLoding ? 'Registering...' : 'Register' }}
+    </button>
+
+  </form>
+</div>
+
