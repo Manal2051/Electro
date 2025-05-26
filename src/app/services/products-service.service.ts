@@ -70,4 +70,12 @@ export class ProductsServiceService {
   }
 
  
+
+   
+   GetProductByCategoryName(name:string|null):Observable<any>{
+    return this._HttpClient.get(`${environment.baseUrl}/Product/ProductByCategoryName?name=${name}`);
+   }
+   GetProductByBrandName(name:string|null):Observable<any>{
+    return this._HttpClient.get(`${environment.baseUrl}/Product/ProductByBrandName?name=${name}`);
+   }
 }

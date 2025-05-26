@@ -27,6 +27,8 @@ import { ViewAllUsersComponent } from './components/Admin/User/view-all-users/vi
 
 import { UpdateProductComponent } from './components/Admin/Product/update-product/update-product.component';
 
+
+
 export const routes: Routes = [
 
   {path:'',component:AuthLayoutComponent,canActivate:[loginGuard],children:[
@@ -40,7 +42,7 @@ export const routes: Routes = [
     {path:'home',component:HomeComponent},
     {path:'products',component:ProductsComponent},
     {path:'cart',component:CartComponent},
-    {path:'categories',component:CategoriesComponent},
+    {path:'categories/:name',component:CategoriesComponent},
     {path:'brands',component:BrandsComponent},
     {path:'details/:name',component:DetailsComponent},
 
