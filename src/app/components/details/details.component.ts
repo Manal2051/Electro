@@ -10,34 +10,34 @@ import { CurrencyPipe } from '@angular/common';
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss'
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent  {
   private readonly _ActivatedRoute=inject(ActivatedRoute);
 
  private readonly _ProductsServiceService=inject(ProductsServiceService);
 
  detailsProduct:IProduct|null=null;
 
-  ngOnInit(): void {
-    this._ActivatedRoute.paramMap.subscribe({
-      next:(p)=>{
-        console.log(p.get('name'));
-        let ProductName=p.get('name');
-        this._ProductsServiceService.getProductByName(ProductName).subscribe({
-          next:(res)=>{
+  // ngOnInit(): void {
+  //   this._ActivatedRoute.paramMap.subscribe({
+  //     next:(p)=>{
+  //       console.log(p.get('name'));
+  //       let ProductName=p.get('name');
+  //       this._ProductsServiceService.getProductByName(ProductName).subscribe({
+  //         next:(res)=>{
 
-            this.detailsProduct=res.model;
-            console.log(this.detailsProduct);
+  //           this.detailsProduct=res.model;
+  //           console.log(this.detailsProduct);
 
-          },
-          error:(err)=>{
-           console.log(err);
-          }
-        })
+  //         },
+  //         error:(err)=>{
+  //          console.log(err);
+  //         }
+  //       })
 
 
-      }
-    })
+  //     }
+  //   })
 
-  }
+  // }
 
 }

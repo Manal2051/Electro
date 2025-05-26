@@ -1,8 +1,9 @@
 
 
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { AuthServiceService } from '../../services/auth-service.service';
 
 
 @Component({
@@ -29,6 +30,8 @@ export class DashboardComponent {
   toggleProductsSubmenu() {
     this.isProductsSubmenuOpen = !this.isProductsSubmenuOpen;
   }
+
+   readonly _AuthServiceService=inject(AuthServiceService);
 
  
 

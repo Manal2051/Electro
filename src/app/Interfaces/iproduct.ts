@@ -1,4 +1,6 @@
 export interface IProduct {
+
+imageUrl: any;
     id:number,
    name: string,
     description: string,

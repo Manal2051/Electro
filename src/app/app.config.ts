@@ -4,7 +4,8 @@ import { provideRouter, withViewTransitions } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
-import{BrowserAnimationsModule} from '@angular/platform-browser/animations'
+import{BrowserAnimationsModule, provideAnimations} from '@angular/platform-browser/animations'
+import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
@@ -12,8 +13,13 @@ export const appConfig: ApplicationConfig = {
      provideClientHydration(withEventReplay()),
     provideHttpClient(),
     importProvidersFrom(BrowserAnimationsModule),
+    provideAnimations(),
+    provideToastr()
+
     
 
 
   ]
 };
+
+

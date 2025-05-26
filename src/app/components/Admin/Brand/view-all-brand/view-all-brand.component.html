@@ -1,40 +1,95 @@
-<div class="product-dashboard bg-info">
-  <div class="d-flex justify-content-between ">
 
-    <h2 class="fs-2 fw-bolder my-4">Brands Dashboard</h2>
+<div class="Brand-dashboard">
+  <div class="d-flex justify-content-between align-items-center">
 
-    <button  type="button" [routerLink]="['/dashboard/ViewAllBrand/addBrand']"
-      class="btn text-white fw-bolder fs-5 p-3  rounded-3" style="background-color:#2a2185 ;"> Add New Brand</button>
+        <div>
+         
+    <h2 class="fs-2 fw-bolder my-4">Brand Dashboard</h2>
 
+ <input [(ngModel)]="searchTerm"  (input)="filterBrands()" class="form-control" placeholder="search" type="search" name="" id=""> 
+    </div>
+
+    <div>
+        <button [routerLink]="['/dashboard/ViewAllBrands']" type="button"  data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      class="btn text-white fw-bolder fs-5 p-3 rounded-3" style="background-color:#2a2185;">
+      Add New Brand
+    </button>
+    </div>
+
+  
   </div>
 
+<!-- modal -->
+       <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" style="max-width: 55%">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add New Brand</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body p-2">
+           <app-add-brand></app-add-brand>
 
-  <div >Loading Brands...</div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <div  class="error-message"> error </div>
-
-  <table class="w-50 mx-auto">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr >
-        <td> Brand</td>
-        <td> Brand</td>
-
-        <td>
-          <button type="button" class="btn btn-coral mx-2" > Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div >
-    No Brands found.
-  </div>
+  @if (isLoading) {
+    <div class="text-center py-4">Loading brands...</div>
+  }
+  @else if (errorMessage) {
+    <div class="alert alert-danger text-center">{{ errorMessage }}</div>
+  }
+  @else if (filterBrand.length === 0) {
+    <div class="text-center py-4">No categories found.</div>
+  }
+  @else {
+    <table class="table table-striped  mx-auto">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (brand of filterBrand; track brand.id) {
+          <tr>
+            <td>{{ brand.id }}</td>
+            <td>{{ brand.name }}</td>
+            <td>{{ brand.email }}</td>
+            <td>{{ brand.phone }}</td>
+            <td>
+              <button     [routerLink]="['updateBrand', brand.id]" type="button" class="btn btn-blue  mx-2">      <i class="fa-solid fa-pen-to-square"></i></button>
+              <button  (click)="deleteBrand(brand.id)" type="button" class="btn btn-coral mx-2">     <i class="fa-solid fa-trash-can"></i></button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
 </div>

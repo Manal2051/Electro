@@ -1,47 +1,78 @@
-<section class="container my-3">
-<div class="shadow-lg p-5">
-  <h3>Add New Category</h3>
-  <div class="row">
-      <div class="col-md-6">
-
-          <form >
-              <div class="mb-2 form-item">
-                  <label for="name"> Name :</label>
-                  <input formControlName="name" type="text" id="name" class="form-control" />
 
 
-                  <div 
-                      class="alert alert-danger p-1  small w-50 mx-auto">
-                      <p class="mb-0" >Name of Category is
-                          Required</p>
-                  </div>
-              </div>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-11">
+      <div class="card shadow">
+        <div class="card-body">
+       
+          @if (successMessage) {
+            <div class="alert alert-success">{{ successMessage }}</div>
+          }
+          @if (errorMessage) {
+            <div class="alert alert-danger">{{ errorMessage }}</div>
+          }
 
-              <div class="mb-2 form-item">
-                <label for="brandId">Brand:</label>
-                <select formControlName="brandId" id="brandId" class="form-select">
-
-                  <option >brand.name</option>
-                </select>
-                <div 
-                     class="alert alert-danger p-1 small w-50 mx-auto">
-                  <p class="mb-0" >Brand is Required</p>
+          <form [formGroup]="categoryForm" (ngSubmit)="addCategory()">
+            <div class="row mb-4">
+              <div class="col-md-4">
+                <div class="image-preview">
+                  <img [src]="selectedImagePreview || 'assets/placeholder-image.jpg'" 
+                       class="img-fluid rounded border"
+                       style="max-height: 200px; object-fit: cover;">
                 </div>
               </div>
+              <div class="col-md-8">
+                <label class="form-label">Category Image *</label>
+                <input type="file" class="form-control" 
+                       accept="image/*"
+                       (change)="onFileSelected($event)"
+                       [class.is-invalid]="imageFile?.invalid && imageFile?.touched">
+                @if (imageFile?.invalid && imageFile?.touched) {
+                  <div class="invalid-feedback">
+                    @if (imageFile?.errors?.['required']) {
+                      <div>Image is required</div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
 
+            <div class="row">
+              <div class="col-md-12 mb-3">
+                <label class="form-label">Category Name *</label>
+                <input type="text" class="form-control" formControlName="name"
+                       [class.is-invalid]="name?.invalid && name?.touched">
+                @if (name?.invalid && name?.touched) {
+                  <div class="invalid-feedback">
+                    @if (name?.errors?.['required']) {
+                      <div>Category name is required</div>
+                    }
+                    @if (name?.errors?.['minlength']) {
+                      <div>Name must be at least 2 characters</div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
 
-            <button class="rounded mt-3 d-block ms-auto btn btn-outline-success ">Add New
-              Category </button>
-
-
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-secondary" 
+                      (click)="resetForm()" [disabled]="isSubmitting">
+                Reset
+              </button>
+              <button type="submit" class="btn text-light" 
+                      [disabled]="isSubmitting || categoryForm.invalid"
+                      style="background-color: #2a2185">
+                @if (isSubmitting) {
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                }
+                {{ isSubmitting ? 'Adding...' : 'Add Category' }}
+              </button>
+            </div>
           </form>
-
-
+        </div>
       </div>
-      <div class="col-md-6">
-        <img src="assets/category.webp" alt="" class="w-100">
-      </div>
+    </div>
   </div>
 </div>
-
-</section>

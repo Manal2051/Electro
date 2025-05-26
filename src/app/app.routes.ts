@@ -16,7 +16,7 @@ import { DetailsComponent } from './components/details/details.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ViewAllProductsComponent } from './components/Admin/Product/view-all-products/view-all-products.component';
 import { AddProductComponent } from './components/Admin/Product/add-product/add-product.component';
-import { UpdateProductComponent } from './components/Admin/Product/update-product/update-product.component';
+
 import { ViewAllBrandComponent } from './components/Admin/Brand/view-all-brand/view-all-brand.component';
 import { AddBrandComponent } from './components/Admin/Brand/add-brand/add-brand.component';
 import { UpdateBrandComponent } from './components/Admin/Brand/update-brand/update-brand.component';
@@ -24,7 +24,8 @@ import { ViewAllCategoryComponent } from './components/Admin/Category/view-all-c
 import { AddCategoryComponent } from './components/Admin/Category/add-category/add-category.component';
 import { UpdateCategoryComponent } from './components/Admin/Category/update-category/update-category.component';
 import { ViewAllUsersComponent } from './components/Admin/User/view-all-users/view-all-users.component';
-import { AddUserComponent } from './components/Admin/User/add-user/add-user.component';
+
+import { UpdateProductComponent } from './components/Admin/Product/update-product/update-product.component';
 
 export const routes: Routes = [
 
@@ -33,6 +34,7 @@ export const routes: Routes = [
     {path:'login',component:LoginComponent},
     {path:'register',component:RegisterComponent}
   ]},
+
   {path:'',component:BlankLayoutComponent,canActivate:[authGuard],children:[
     {path:'',redirectTo:'home',pathMatch:'full'},
     {path:'home',component:HomeComponent},
@@ -41,14 +43,22 @@ export const routes: Routes = [
     {path:'categories',component:CategoriesComponent},
     {path:'brands',component:BrandsComponent},
     {path:'details/:name',component:DetailsComponent},
+
+
+
+    
   ]},
+  
+
+
+
   {
     path: '', loadComponent: () => import('./Layouts/dashboard-admin/dashboard-admin.component').then((m) => m.DashboardAdminComponent),
 
     children: [
 
       {
-        path: "dashboard", component: DashboardComponent, title: "dashboard",
+        path: "dashboard", component: DashboardComponent, title: "dashboard",canActivate:[authGuard],
 
         children: [
 
@@ -71,12 +81,19 @@ export const routes: Routes = [
 
 
           { path: "ViewAllUsers", component: ViewAllUsersComponent, title: "View All Users" },
-          { path: "addUser", component: AddUserComponent, title: "AddUser" },
-          { path: "ViewAllUsers", component: ViewAllUsersComponent, title: "View All Users" },
+  
+      
+
+        
 
         ]
       }
+
+
     ]
-  },
+  }
+
+
+  ,
   {path:'**', component:NotfoundComponent}
 ];

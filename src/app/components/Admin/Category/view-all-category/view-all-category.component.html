@@ -1,45 +1,94 @@
-<div class="product-dashboard">
-  <div class="d-flex justify-content-between">
 
-    <h2 class="fs-2 fw-bolder my-4">category Dashboard</h2>
+<div class="category-dashboard">
+  <div class="d-flex justify-content-between align-items-center">
 
-    <button [routerLink]="['/dashboard/ViewAllCategory/addCategory']" type="button"
-      class="btn text-white fw-bolder fs-5 p-3  rounded-3" style="background-color:#2a2185 ;"> Add New Category</button>
+        <div>
+         
+    <h2 class="fs-2 fw-bolder my-4">Category Dashboard</h2>
 
+ <input  [(ngModel)]="searchTerm"  (input)="filterCategorys()" class="form-control" placeholder="search" type="search" name="" id=""> 
+    </div>
+
+    <div>
+        <button [routerLink]="['/dashboard/ViewAllCategory']" type="button" data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      class="btn text-white fw-bolder fs-5 p-3 rounded-3" style="background-color:#2a2185;">
+      Add New Category
+    </button>
+    </div>
+
+  
   </div>
 
 
-  <div >Loading categories...</div>
+  <!-- modal -->
+       <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" style="max-width: 55%">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add New Category</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body p-2">
+         <app-add-category></app-add-category>
 
-  <div > error </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <table  class="w-50 mx-auto">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Action</th>
-
-    </thead>
-    <tbody>
-<!-- 
-    @for (item of items; track $index) {
-
-      <tr >
-        <td> category.id </td>
-        <td>category.name </td>
-
-
-        <td>
-          <button type="button" class="btn btn-coral mx-2" > Delete</button>
-        </td>
-      </tr>
-    } -->
-
-    </tbody>
-  </table>
-
-  <div >
-    No categories found.
-  </div>
+  @if (isLoading) {
+    <div class="text-center py-4">Loading categories...</div>
+  }
+  @else if (errorMessage) {
+    <div class="alert alert-danger text-center">{{ errorMessage }}</div>
+  }
+  @else if (filterCategory.length === 0) {
+    <div class="text-center py-4">No categories found.</div>
+  }
+  @else {
+    <table class="table table-striped w-75 mx-auto">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>image</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (category of filterCategory; track category.id) {
+          <tr>
+            <td>{{ category.id }}</td>
+            <td>{{ category.name }}</td>
+            <td>{{ category.image }}</td>
+            <td>
+              <button type="button" class="btn btn-blue  mx-2">      <i class="fa-solid fa-pen-to-square"></i></button>
+              <button (click)="deleteCategory(category.id)"  type="button" class="btn btn-coral mx-2">     <i class="fa-solid fa-trash-can"></i></button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
 </div>

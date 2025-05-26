@@ -1,48 +1,96 @@
-<section class="container my-3">
-  <div class="shadow-lg p-5">
-    <h3>Add New Brand</h3>
-    <div class="row">
-      <div class="col-md-6">
-
-        <form >
-          <div class="mb-2 form-item">
-            <label for="name"> Name :</label>
-            <input formControlName="name" type="text" id="name" class="form-control" />
-
-
-            <div 
-              class="alert alert-danger p-1  small w-50 mx-auto">
-              <p class="mb-0" >Name of Brand is
-                Required</p>
+<!-- add-brand.component.html -->
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-11">
+      <div class="card shadow">
+        <div class="card-body">
+          <!-- Success Message -->
+          @if (successMessage) {
+            <div class="alert alert-success" role="alert">
+              {{ successMessage }}
             </div>
-          </div>
+          }
 
-          <div class="mb-2 form-item">
-            <label for="categoryId">Category:</label>
-            <select formControlName="categoryId" id="categoryId" class="form-select">
-
-              <option>category</option>
-            </select>
-            <div
-              class="alert alert-danger p-1 small w-50 mx-auto">
-              <p class="mb-0" >Category is Required</p>
+          <!-- Error Message -->
+          @if (errorMessage) {
+            <div class="alert alert-danger" role="alert">
+              {{ errorMessage }}
             </div>
-          </div>
+          }
 
+          <form [formGroup]="brandForm" (ngSubmit)="addBrand()">
+            <div class="row">
+              <!-- Brand Name -->
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Brand Name *</label>
+                <input type="text" class="form-control" formControlName="name"
+                       [class.is-invalid]="name?.invalid && name?.touched">
+                @if (name?.invalid && name?.touched) {
+                  <div class="invalid-feedback">
+                    @if (name?.errors?.['required']) {
+                      <div>Brand name is required</div>
+                    }
+                    @if (name?.errors?.['minlength']) {
+                      <div>Name must be at least 2 characters</div>
+                    }
+                  </div>
+                }
+              </div>
 
+              <!-- Phone -->
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Phone *</label>
+                <input type="tel" class="form-control" formControlName="phone"
+                       [class.is-invalid]="phone?.invalid && phone?.touched">
+                @if (phone?.invalid && phone?.touched) {
+                  <div class="invalid-feedback">
+                    @if (phone?.errors?.['required']) {
+                      <div>Phone is required</div>
+                    }
+                    @if (phone?.errors?.['pattern']) {
+                      <div>Invalid phone number format</div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
 
+            <div class="row">
+              <!-- Email -->
+              <div class="col-md-12 mb-3">
+                <label class="form-label">Email *</label>
+                <input type="email" class="form-control" formControlName="email"
+                       [class.is-invalid]="email?.invalid && email?.touched">
+                @if (email?.invalid && email?.touched) {
+                  <div class="invalid-feedback">
+                    @if (email?.errors?.['required']) {
+                      <div>Email is required</div>
+                    }
+                    @if (email?.errors?.['email']) {
+                      <div>Invalid email format</div>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
 
-          <button class="rounded mt-3 d-block ms-auto btn btn-outline-success ">Add New
-            Brand </button>
-        </form>
-
-
-      </div>
-      <div class="col-md-6">
-        <img src="assets/addBrand.jpeg" alt="" class="w-100">
+            <!-- Submit Buttons -->
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-secondary" (click)="resetForm()"
+                      [disabled]="isSubmitting">
+                Reset Form
+              </button>
+              
+              <button type="submit" class="btn text-light" [disabled]="isSubmitting || brandForm.invalid" style="background-color: #2a2185">
+                @if (isSubmitting) {
+                  <span class="spinner-border spinner-border-sm me-2"></span>
+                }
+                {{isSubmitting ? 'Adding Brand...' : 'Add Brand'}}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-
-
-</section>
+</div>

@@ -1,18 +1,83 @@
-import { Component, OnInit } from '@angular/core';
-
-
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { BrandService } from '../../../../services/brand.service';
 import { CommonModule } from '@angular/common';
-
+import { Ibrand } from '../../../../Interfaces/ibrand';
 
 @Component({
   selector: 'app-add-brand',
-
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule , FormsModule,ReactiveFormsModule],
   templateUrl: './add-brand.component.html',
-  styles: ``
+  styleUrl: './add-brand.component.scss'
 })
-export class AddBrandComponent  {
+export class AddBrandComponent {
+ isLoading = false;
+  isSubmitting = false;
+  errorMessage = '';
+  successMessage = '';
+
+  constructor(private _BrandService: BrandService,private _ToastrService:ToastrService) {}
+
+  brandForm = new FormGroup({
+    name: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    phone: new FormControl('', [Validators.required, Validators.pattern(/^(010|011|012|015)[0-9]{8}$/)]),
+    email: new FormControl('', [Validators.required])
+  });
+
+  get name() { return this.brandForm.get('name'); }
+  get phone() { return this.brandForm.get('phone'); }
+  get email() { return this.brandForm.get('email'); }
+
+ 
+
+addBrand() {
+  if (this.brandForm.status === 'VALID') {
+    this.isSubmitting = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
+
+    const brandData: Ibrand = {
+      id:0,
+      name: this.brandForm.value.name!,
+      phone: this.brandForm.value.phone!,
+      email: this.brandForm.value.email!
+    };
+
+    this._BrandService.addBrand(brandData).subscribe({
+      next: (response) => {
+        this.isSubmitting = false;
+        this.successMessage = 'Brand added successfully!';
+        this._ToastrService.success('Brand added successfully!');
+
+        this.brandForm.reset();
+      },
+      error: (error) => {
+        this.isSubmitting = false;
+        this.errorMessage = error.error?.message || 'Failed to add brand. Please try again.';
+       this._ToastrService.error('Failed to add brand!');
+      }
+    });
+  } else {
+    this.markFormGroupTouched();
+  }
+}
+
+
+  resetForm() {
+    this.brandForm.reset();
+    this.errorMessage = '';
+    this.successMessage = '';
+  }
+
+  private markFormGroupTouched(): void {
+    Object.keys(this.brandForm.controls).forEach(key => {
+      const control = this.brandForm.get(key);
+      control?.markAsTouched();
+    });
+  }
+
 
 
 

@@ -5,6 +5,8 @@
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
 
+@import 'ngx-toastr/toastr';
+
 :root {
   --main-color:  #fed700;
   --light-color: #f0f3f2;
@@ -100,3 +102,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   transform: translateY(-5px);
   box-shadow: 0 0 30px 6px rgba(255, 255, 0, 0.8);
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -1,17 +1,11 @@
-
-import { Component, OnInit } from '@angular/core';
-
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-update-brand',
-  imports: [ReactiveFormsModule],
+  imports: [],
   templateUrl: './update-brand.component.html',
-
+  styleUrl: './update-brand.component.scss'
 })
-export class UpdateBrandComponent  {
- 
+export class UpdateBrandComponent {
 
 }

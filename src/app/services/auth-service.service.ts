@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +18,12 @@ export class AuthServiceService {
  userData:any;
 
   setRegisterationForm(data:object):Observable<any>{
-    return this._HttpClient.post(`${this.baseUrl}/api/Account/Register`,data);//link api
+    return this._HttpClient.post(`${environment.baseUrl}/Account/Register`,data);//link api
   }
 
   setLoginForm(data:object):Observable<any>{
 
-    return this._HttpClient.post(`${this.baseUrl}/api/Account/Login`,data);
+    return this._HttpClient.post(`${environment.baseUrl}/Account/Login`,data);
 
   }
 

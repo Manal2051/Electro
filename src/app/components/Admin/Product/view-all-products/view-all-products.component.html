@@ -1,73 +1,141 @@
 <div class="product-dashboard">
   <div class="d-flex justify-content-between">
-    <h2>GitHub</h2>
-
     <div>
-          <h2 class="fs-2 fw-bolder my-4">Product Dashboard</h2>
+      <h2 class="fs-2 fw-bolder my-4">Product Dashboard</h2>
 
- <input [(ngModel)]="searchTerm"  (input)="filterProducts()"  class="form-control" placeholder="search" type="search" name="" id=""> 
+      <input
+        [(ngModel)]="searchTerm"
+        (input)="filterProducts()"
+        class="form-control"
+        placeholder="search"
+        type="search"
+        name=""
+        id=""
+      />
     </div>
 
     <div>
-       <button [routerLink]="['/dashboard/ViewAllProducts/addProduct']" type="button"
-      class="btn text-white fw-bolder fs-5 p-3  rounded-3" style="background-color:#2a2185 ;"> Add New Product</button>
-
+          <button
+      [routerLink]="['/dashboard/ViewAllProducts']"
+      type="button"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      class="btn text-white fw-bolder fs-5 p-2 rounded-3"
+      style="background-color: #2a2185"
+    >
+      Add New Product
+    </button>
     </div>
 
-
-
-   
   </div>
+  <!-- modal -->
+     <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered" style="max-width: 70%">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add New Product</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body p-2">
+            <app-add-product></app-add-product>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-
-  @if(productsList.length < 0){
-    <div >Loading products...</div>
+  @if (isLoading) {
+    <div class="text-center py-4">Loading products...</div>
+  }
+  @else if (errorMessage) {
+    <div class="alert alert-danger text-center">{{ errorMessage }}</div>
   }
 
-
-  <table>
+   @else if(filteredProducts.length === 0){
+  <div class="text-center py-4">No products found ...</div>
+  }@else {
+      <table>
     <thead>
       <tr>
-
+        <th>ID</th>
         <th>Name</th>
         <th>Price</th>
         <th>Category</th>
         <th>Brand</th>
         <th>In Stock</th>
-        <th><div class=" d-flex justify-content-between">  Action</div>
-        </th>
+
+        <th><div class="d-flex justify-content-between">Action</div></th>
       </tr>
     </thead>
     <tbody>
       @for (product of filteredProducts; track $index) {
 
-        <tr >
+      <tr>
+        <td>{{ product.id }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.categoryName }}</td>
+        <td>{{ product.brandName }}</td>
+        <td>{{ product.stockAmount }}</td>
 
-        <td> {{product.name}} </td>
-        <td>{{product.price}}</td>
-        <td> {{product.categoryName}} </td>
-        <td> {{product.brandName}} </td>
-        <td> {{product.stockAmount}} </td>
         <td>
-          <div class="d-flex justify-content-between">
-          <button type="button" class="btn btn-blue  "
-            [routerLink]="['/dashboard/ViewAllProducts/updateProduct',product.id]"> Update</button>
-          <button type="button" class="btn btn-teal  "
-            [routerLink]="['/dashboard/ViewAllProducts/productDetails']"> Details</button>
-          <button type="button" class="btn btn-coral " > Delete</button>
-          </div>
-    
+          
+            <button
+              type="button"
+              class="btn btn-blue"
+
+
+      
+              [routerLink]="['updateProduct', product.id]"
+            >
+           <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+        
+            <button
+              type="button"
+              class="btn btn-teal"
+              [routerLink]="['/details/:name']"
+            >
+             
+
+          <i class="fa-solid fa-eye"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-coral"
+              (click)="deleteProduct(product.id)"
+            >
+             <i class="fa-solid fa-trash-can"></i>
+            </button>
+        
         </td>
       </tr>
 
       }
-   
     </tbody>
   </table>
 
-@if(productsList.length == 0){
-    <div >
-    No products found.
-  </div>
-}
+  }
+
+
+
 </div>

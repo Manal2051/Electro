@@ -50,20 +50,12 @@
         </a>
       </li>
 
-      <li role="button">
-        <a (click)="toggleProductsSubmenu()" [class.active]="isProductsSubmenuOpen" routerLink="registerAdmin">
-          <span class="icon">
-
-            <i class="fa-solid fa-id-card fa-2x"></i>
-          </span>
-          <span class="title fw-bolder">Register</span>
-        </a>
-      </li>
+ 
 
       <li>
         <a>
           <span class="icon"><i class="fa-solid fa-arrow-right-to-bracket fa-2x"></i></span>
-          <span class="title fw-bolder" >Sign Out</span>
+          <span class="title fw-bolder"  (click)="_AuthServiceService.sinOut()">Sign Out</span>
         </a>
       </li>
     </ul>

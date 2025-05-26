@@ -1,84 +1,185 @@
-<section class="container my-3">
-  <div class="shadow-lg p-5">
-    <h3>Add New Products</h3>
-    <div class="row">
-      <div class="col-md-6">
-        <form>
-          <div class="mb-2 form-item">
-            <label for="name">Name:</label>
-            <input formControlName="name" type="text" id="name" class="form-control" />
-            <div 
-              class="alert alert-danger p-1 small w-50 mx-auto">
-              <p class="mb-0" >Name of Product is Required</p>
+<div class="container ">
+  <div class="row justify-content-center">
+    <div class="col-lg-11">
+      <div class="card shadow">
+        <div class="card-body">
+          
+  
+          @if (isLoading) {
+            <div class="text-center py-4">
+              <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p class="mt-2">Loading categories and brands...</p>
             </div>
-          </div>
+          }
 
-          <div class="mb-2 form-item">
-            <label for="description">Description:</label>
-            <textarea formControlName="description" id="description" class="form-control"></textarea>
-          </div>
+       
+          @else {
+            <form [formGroup]="productForm" (ngSubmit)="addProduct()">
+              
+             
+              <div class="row mb-4">
+                <div class="col-md-4">
+                  <div class="image-preview">
+                    <img [src]="selectedImage" alt="Product Preview" class="img-fluid rounded border" 
+                         style="max-height: 200px; width: 100%; object-fit: cover;">
+                  </div>
+                </div>
+                <div class="col-md-8">
+                  <label class="form-label">Product Images</label>
+                  <input type="file" class="form-control" accept="image/*" multiple 
+                         (change)="onFileSelected($event)">
+                  <small class="text-muted">Select one or more images for the product</small>
+                </div>
+              </div>
 
-          <div class="mb-2 form-item">
-            <label for="price">Price:</label>
-            <input formControlName="price" type="number" id="price" class="form-control" />
-            <div 
-              class="alert alert-danger p-1 small w-50 mx-auto">
-              <p class="mb-0" >Price is Required</p>
-            </div>
-          </div>
+          
+              <div class="row">
+             
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Product Name *</label>
+                  <input type="text" class="form-control" formControlName="name" 
+                         [class.is-invalid]="name?.invalid && name?.touched">
+                  @if (name?.invalid && name?.touched) {
+                    <div class="invalid-feedback">
+                      @if (name?.errors?.['required']) {
+                        <div>Product name is required</div>
+                      }
+                      @if (name?.errors?.['minlength']) {
+                        <div>Name must be at least 3 characters</div>
+                      }
+                    </div>
+                  }
+                </div>
 
-          <div class="mb-2 form-item">
-            <label for="images">images:</label>
-            <input formControlName="images" multiple  type="file" id="images"
-              class="form-control" />
-            <div 
-              class="alert alert-danger p-1 small w-50 mx-auto">
-              <p class="mb-0" >Price is Required</p>
-            </div>
-          </div>
+       
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Price *</label>
+                  <input type="number" class="form-control" formControlName="price" step="0.01"
+                         [class.is-invalid]="price?.invalid && price?.touched">
+                  @if (price?.invalid && price?.touched) {
+                    <div class="invalid-feedback">
+                      @if (price?.errors?.['required']) {
+                        <div>Price is required</div>
+                      }
+                      @if (price?.errors?.['min']) {
+                        <div>Price must be greater than 0</div>
+                      }
+                    </div>
+                  }
+                </div>
+              </div>
 
-          <div class="mb-2 form-item">
-            <label for="stockQuantity">Stock Quantity:</label>
-            <input formControlName="stockQuantity" type="number" id="stockQuantity" class="form-control" />
-            <div 
-              class="alert alert-danger p-1 small w-50 mx-auto">
-              <p class="mb-0">Stock Quantity is
-                Required</p>
-            </div>
-          </div>
+              <div class="row">
+              
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Stock Quantity *</label>
+                  <input type="number" class="form-control" formControlName="stockAmount"
+                         [class.is-invalid]="stockAmount?.invalid && stockAmount?.touched">
+                  @if (stockAmount?.invalid && stockAmount?.touched) {
+                    <div class="invalid-feedback">
+                      @if (stockAmount?.errors?.['required']) {
+                        <div>Stock quantity is required</div>
+                      }
+                      @if (stockAmount?.errors?.['min']) {
+                        <div>Stock must be at least 1</div>
+                      }
+                    </div>
+                  }
+                </div>
 
-          <div class="mb-2 form-item">
-            <label for="categoryId">Category:</label>
-            <select formControlName="categoryId" id="categoryId" class="form-select">
+          
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Discount Percentage</label>
+                  <input type="number" class="form-control" formControlName="discountPercentage" min="0" max="100"
+                         [class.is-invalid]="discountPercentage?.invalid && discountPercentage?.touched">
+                  @if (discountPercentage?.invalid && discountPercentage?.touched) {
+                    <div class="invalid-feedback">
+                      @if (discountPercentage?.errors?.['min']) {
+                        <div>Discount cannot be negative</div>
+                      }
+                      @if (discountPercentage?.errors?.['max']) {
+                        <div>Discount cannot exceed 100%</div>
+                      }
+                    </div>
+                  }
+                </div>
+              </div>
 
-              <option >category.name</option>
-            </select>
-            <div 
-              class="alert alert-danger p-1 small w-50 mx-auto">
-              <p class="mb-0" >Category is Required</p>
-            </div>
-          </div>
+              <div class="row">
+         
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Category *</label>
+                  <select class="form-select" formControlName="categoryId"
+                          [class.is-invalid]="categoryId?.invalid && categoryId?.touched">
+                    <option value="">Select Category</option>
+                    <option *ngFor="let category of categoryList" [value]="category.id">
+                      {{category.name}}
+                    </option>
+                  </select>
+                  @if (categoryId?.invalid && categoryId?.touched) {
+                    <div class="invalid-feedback">
+                      Category is required
+                    </div>
+                  }
+                </div>
 
-          <div class="mb-2 form-item">
-            <label for="brandId">Brand:</label>
-            <select formControlName="brandId" id="brandId" class="form-select">
+    
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Brand *</label>
+                  <select class="form-select" formControlName="brandId"
+                          [class.is-invalid]="brandId?.invalid && brandId?.touched">
+                    <option value="">Select Brand</option>
+                    <option *ngFor="let brand of brandList" [value]="brand.id">
+                      {{brand.name}}
+                    </option>
+                  </select>
+                  @if (brandId?.invalid && brandId?.touched) {
+                    <div class="invalid-feedback">
+                      Brand is required
+                    </div>
+                  }
+                </div>
+              </div>
 
-              <option>brand.name</option>
-            </select>
-            <div 
-              class="alert alert-danger p-1 small w-50 mx-auto">
-              <p class="mb-0" >Brand is Required</p>
-            </div>
-          </div>
+          
+              <div class="mb-3">
+                <label class="form-label">Description *</label>
+                <textarea class="form-control" formControlName="description" rows="4"
+                          [class.is-invalid]="description?.invalid && description?.touched"
+                          placeholder="Enter product description..."></textarea>
+                @if (description?.invalid && description?.touched) {
+                  <div class="invalid-feedback">
+                    @if (description?.errors?.['required']) {
+                      <div>Description is required</div>
+                    }
+                    @if (description?.errors?.['minlength']) {
+                      <div>Description must be at least 10 characters</div>
+                    }
+                  </div>
+                }
+              </div>
 
-          <button class="rounded mt-3 d-block ms-auto btn btn-outline-success">Add New
-            Product</button>
-        </form>
-      </div>
+     
+              <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" (click)="resetForm()" 
+                        [disabled]="isSubmitting">
+                  Reset Form
+                </button>
+                
+                <button type="submit" class="btn text-light" [disabled]="isSubmitting" style="background-color: #2a2185">
+                  @if (isSubmitting) {
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                  }
+                  {{isSubmitting ? 'Adding Product...' : 'Add Product'}}
+                </button>
+              </div>
 
-      <div class="col-md-6">
-        <img src="assets/addProd.png" alt="" class="w-100">
+            </form>
+          }
+        </div>
       </div>
     </div>
   </div>
-</section>
+</div>
