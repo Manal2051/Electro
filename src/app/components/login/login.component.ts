@@ -43,7 +43,7 @@ export class LoginComponent {
               this._AuthService.saveUserData();
 
               this._router.navigate(['/home'])
-            },1000);
+            });
 
           }
           this.isLoding=false;

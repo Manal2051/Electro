@@ -1,4 +1,17 @@
 <router-outlet></router-outlet>
+<!-- <ngx-spinner   type="ball-scale-multiple"></ngx-spinner> -->
+ <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fed700" type = "line-spin-fade" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+
+<div class="scroll-to-top"
+     [class.visible]="showScrollButton"
+     (click)="scrollToTop()"
+     (mouseover)="hover = true"
+     (mouseout)="hover = false"
+     [class.hovered]="hover">
+  <i class="fa-solid fa-arrow-up text-white"></i>
+</div>
 
 
-<div class="bg-warning w-25 "><i class="fa-solid fa-arrow-up"></i></div>
+
+
+

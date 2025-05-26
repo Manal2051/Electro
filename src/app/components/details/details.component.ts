@@ -29,6 +29,9 @@ export class DetailsComponent implements OnInit {
             console.log(this.detailsProduct);
 
           },
+
+
+          
           error:(err)=>{
            console.log(err);
           }

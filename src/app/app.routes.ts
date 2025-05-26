@@ -26,6 +26,8 @@ import { UpdateCategoryComponent } from './components/Admin/Category/update-cate
 import { ViewAllUsersComponent } from './components/Admin/User/view-all-users/view-all-users.component';
 import { AddUserComponent } from './components/Admin/User/add-user/add-user.component';
 
+
+
 export const routes: Routes = [
 
   {path:'',component:AuthLayoutComponent,canActivate:[loginGuard],children:[
@@ -38,7 +40,7 @@ export const routes: Routes = [
     {path:'home',component:HomeComponent},
     {path:'products',component:ProductsComponent},
     {path:'cart',component:CartComponent},
-    {path:'categories',component:CategoriesComponent},
+    {path:'categories/:name',component:CategoriesComponent},
     {path:'brands',component:BrandsComponent},
     {path:'details/:name',component:DetailsComponent},
   ]},

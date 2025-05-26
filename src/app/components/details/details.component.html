@@ -1,7 +1,75 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+@if (detailsProduct) {
+<div class="container my-5 pt-3">
+    <div class="row my-5">
+        <!-- Product Images -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <img [src]="detailsProduct.image" [alt]="detailsProduct.name" class="img-fluid rounded mb-3 product-image">
+
+        </div>
+
+        <!-- Product Details -->
+        <div class="col-md-6 col-lg-8">
+            <h2 class="mb-3"> {{detailsProduct.name}}</h2>
+            <p class="text-muted mb-4">Brand: {{detailsProduct.brandName}}</p>
+            <div class="mb-3">
+                <span class="h4 me-2">{{detailsProduct.price |currency }}</span>
+                <span class="text-muted"><s>{{detailsProduct.price-detailsProduct.price*detailsProduct.discountPercentage/100|currency}}</s></span>
+            </div>
+            <div class="mb-3">
+                <i class="bi bi-star-fill text-warning"></i>
+                <i class="bi bi-star-fill text-warning"></i>
+                <i class="bi bi-star-fill text-warning"></i>
+                <i class="bi bi-star-fill text-warning"></i>
+                <i class="bi bi-star-half text-warning"></i>
+                <span class="ms-2">4.5 (120 reviews)</span>
+            </div>
+            <p class="mb-4">{{detailsProduct.description}}</p>
+
+            <div class="mb-4">
+                <label for="quantity" class="form-label"><p class=" font-medium">Availability: <span class="text-black fs-4">{{detailsProduct.stockAmount }} in stock</span></p></label>
+
+            </div>
+<div class="d-flex"><button class="product-button  mb-3 me-2">
+                    <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg> Add to Cart
+                </button>
+            <button class="btn btn-outline-secondary product-button btn-lg mb-3">
+                    <i class="bi bi-heart"></i> Add to Wishlist
+                </button></div>
+
+            <div class="mt-4">
+                <h5>Key Features:</h5>
+                <ul>
+                     <li>{{detailsProduct?.description?.split(',',1)?.slice()}}</li>
+                     <li>{{detailsProduct?.description?.split(',',2)?.splice(1)}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+<!--
 @if (detailsProduct) {
   <div class="container-fluid">
 
-  <div class="row d-flex  align-items-center shadow-lg ">
+  <div class="row d-flex  align-items-center  w-75 mx-auto p-4 my-4  shadow-lg rounded-2 ">
      <h3 class="text-center mt-5 text-main">Product Details</h3>
 
   <div class="col-4">
@@ -30,7 +98,7 @@
 
     <div class="d-flex align-items-baseline ">
       <span class=" fs-2 font-size-20 text-red text-decoration-none mr-2">{{detailsProduct.price-detailsProduct.price*detailsProduct.discountPercentage/100|currency:'EGP'}} </span>
-      <span class=" text-decoration-line-through  ">{{detailsProduct.price|currency:'EGP' }} </span>
+      <span class=" text-decoration-line-through  ">{{detailsProduct.price |currency: ' EGP ' }} </span>
 
     </div>
 
@@ -43,6 +111,6 @@
 </div>
 </div>
 
-}
+} -->
 
 
