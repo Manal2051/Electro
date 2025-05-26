@@ -6,38 +6,92 @@ import { FormsModule } from '@angular/forms';
 import { SearchPipe } from '../../pipes/search.pipe';
 import { RouterLink } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
+import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
+import { CategoryService } from '../../services/category.service';
+import { ICategory } from '../../Interfaces/icategory';
 
 @Component({
   selector: 'app-products',
-  imports: [FormsModule,SearchPipe,RouterLink,CurrencyPipe],
+  imports: [CarouselModule,FormsModule,SearchPipe,RouterLink,CurrencyPipe],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
 })
 export class ProductsComponent implements OnInit ,OnDestroy {
 
   _searchName:string ="";
-  _searchBrand:string="";
+categoryName:string="";
+  currentPage: number = 1;
+  pageSize: number = 8;
+  totalPages: number = 0;
+  pages: number[] = [];
 
+   customOptionsCat: OwlOptions = {
+      loop: true,
+      mouseDrag: true,
+      touchDrag: true,
+      autoplay:true,
+      autoplayTimeout:3000,
+      autoplayHoverPause:true,
+      pullDrag: false,
+      dots: false,
+      navSpeed: 700,
+      navText: ['', ''],
+      responsive:{
+      0:{
+        items:1
+      },
+      500:{
+        items:2
+      },
+      740:{
+        items:3
+      },940:{
+        items:6
+      }
+
+      },
+      nav: false
+    }
+
+
+_CategoryService=inject(CategoryService);
 
     _ProductsServiceService=inject(ProductsServiceService);
     productsList:IProduct[]=[];
+    categoryList:ICategory[]=[];
     GetAllProductSub !:Subscription;
+    GetAllCategorySub !:Subscription;
+    generatePages() {
+  this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+}
+    loadProducts(page: number ) {
+  this.GetAllProductSub = this._ProductsServiceService.getAllProduct(page, this.pageSize).subscribe({
+    next: (res) => {
+      this.productsList = res.model.items;
+      this.totalPages = res.model.totalPages;
+      this.currentPage = page;
+         this.generatePages();
+    }
+  });
+}
+
 
     ngOnInit(): void {
-     this.GetAllProductSub= this._ProductsServiceService.getAllProduct(1,8).subscribe({
+     this.GetAllCategorySub= this._CategoryService.getAllCategories().subscribe({
         next:(res)=>{
-          this.productsList=res.model.items;
-          console.log(res.model.items);
-        },
-        error:(err)=>{
-          console.log(err);
+          this.categoryList=res.model;
+          console.log(res.model);
         }
       })
+
+       this.loadProducts(this.currentPage);
+        this.generatePages();
 
     }
 
      ngOnDestroy(): void {
       this.GetAllProductSub?.unsubscribe();
+      this.GetAllCategorySub?.unsubscribe();
 
     }
 

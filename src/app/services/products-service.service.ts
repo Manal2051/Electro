@@ -17,4 +17,11 @@ export class ProductsServiceService {
    getProductByName(name:string|null):Observable<any>{
     return this._HttpClient.get(`${this.baseUrl}/api/Product/ProductByName?name=${name}`)
    }
+   
+   GetProductByCategoryName(name:string|null):Observable<any>{
+    return this._HttpClient.get(`${this.baseUrl}/api/Product/ProductByCategoryName?name=${name}`);
+   }
+   GetProductByBrandName(name:string|null):Observable<any>{
+    return this._HttpClient.get(`${this.baseUrl}/api/Product/ProductByBrandName?name=${name}`);
+   }
 }
