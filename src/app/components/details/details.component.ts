@@ -50,10 +50,10 @@ console.log(res);
   error:(err)=>{
     console.log(err);
 
-<<<<<<< HEAD
+
   }
 })
-=======
+
   //           this.detailsProduct=res.model;
   //           console.log(this.detailsProduct);
 
@@ -71,7 +71,7 @@ console.log(res);
   //   })
 
   // }
->>>>>>> fc75a0b84db538f3b037a88bbb5b44a984c63c80
+
 
   }
 }
