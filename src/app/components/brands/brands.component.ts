@@ -1,11 +1,94 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { IProduct } from '../../Interfaces/iproduct';
+import { ProductsServiceService } from '../../services/products-service.service';
+import { Subscription } from 'rxjs';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { CommonModule, CurrencyPipe } from '@angular/common';
+import { ICategory } from '../../Interfaces/icategory';
+import { BrandService } from '../../services/brand.service';
+import { SearchPipe } from '../../pipes/search.pipe';
+import { CartService } from '../../services/cart.service';
+import { ToastrService } from 'ngx-toastr';
+import { SharedDataService } from '../../services/shared-data.service';
+
 
 @Component({
   selector: 'app-brands',
-  imports: [],
+  imports: [CommonModule, FormsModule, RouterLink,SearchPipe, CurrencyPipe],
   templateUrl: './brands.component.html',
   styleUrl: './brands.component.scss'
 })
-export class BrandsComponent {
+export class BrandsComponent implements OnInit, OnDestroy {
+  _searchName:string ="";
+   categoryList:ICategory[]=[];
+    filteredProducts:IProduct[]=[];
+    GetAllProductSub !:Subscription;
+    GetAllCategorySub!: Subscription;
+ _ProductsServiceService=inject(ProductsServiceService);
+ _CartService=inject(CartService);
+_BrandService=inject(BrandService);
+_ToastrService=inject(ToastrService);
+_SharedDataService = inject(SharedDataService);
+
+   @Output() dataFromChild = new EventEmitter<number>();
+  counter:number=0;
+
+    ngOnInit(): void {
+     this.GetAllCategorySub= this._BrandService.getAllBrand().subscribe({
+        next:(res)=>{
+          this.categoryList=res.model;
+          console.log(res.model);
+        }
+      })
+
+    }
+   filterProducts(name: string | null) {
+  if (!name) {
+  
+    this._ProductsServiceService.getAllProduct(1,9).subscribe({
+      next: (res) => this.filteredProducts = res.model.slice(0, 9)
+    });
+  } else {
+    this._ProductsServiceService.GetProductByBrandName(name).subscribe({
+      next: (res) => this.filteredProducts = res.model.slice(0, 9)
+    });
+  }
+}
+onBrandChange(event: Event): void {
+  const value = (event.target as HTMLSelectElement).value;
+  this.filterProducts(value);
+}
+
+
+
+   addToCart(qu:number,id:number):void{
+this._CartService.addItemToCart(qu,id).subscribe({
+  next:(res)=>{
+    this._ToastrService.success('Product Added To Cart Successfully');
+    this.counter += 1;
+      this.dataFromChild.emit(this.counter);
+      this._SharedDataService.updateCartCount(this.counter); // 👈 هنا
+      console.log('counter from home', this.counter);
+   
+
+   
+
+console.log('couter fron home',this.counter);
+  },
+  error:(err)=>{
+    console.log(err);
+
+  }
+})
+
+  }
+      ngOnDestroy(): void {
+      this.GetAllProductSub?.unsubscribe();
+
+
+    }
+
+
 
 }

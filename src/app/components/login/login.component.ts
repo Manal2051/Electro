@@ -6,6 +6,7 @@ import {  HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
 
+
 @Component({
   selector: 'app-login',
   imports: [CommonModule,ReactiveFormsModule],
@@ -18,6 +19,7 @@ export class LoginComponent {
   private readonly _formbuilder=inject(FormBuilder);
   private readonly _router=inject(Router);
   private readonly _AuthService=inject(AuthServiceService);
+  
 
    isLoding:boolean=false;
     msgErro:string="";
@@ -34,12 +36,12 @@ export class LoginComponent {
       this._AuthService.setLoginForm(this.loginForm.value).subscribe({
         next:(res)=>{
           console.log(res);
+
           if(res.isSucceeded)
           {
-            // console.log(res.model.token);
+
             setTimeout(()=>{
               localStorage.setItem('userToken',res.model.token);
-             //2-decode token and as we use it in many place we do it in service
               this._AuthService.saveUserData();
 
               this._router.navigate(['/home'])

@@ -166,27 +166,20 @@
 
                 <a class="nav-link me-4" routerLink="products" routerLinkActive="active-link">products</a>
               </li>
+              <li class="nav-item">
 
-
-              <li class="nav-item dropdown">
-                <a class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown"  role="button"
-                  aria-expanded="false">categories</a>
-                <ul class="dropdown-menu">
-                  <li>
-                    <a [routerLink]="['/categories','Phones']" routerLinkActive="active-link" class="dropdown-item">Phones</a>
-                  </li>
-
-                  <li>
-                    <a [routerLink]="['Watches']" routerLinkActive="active-link" class="dropdown-item">Watches</a>
-                  </li>
-                  <li>
-                    <a  routerLink="cart" routerLinkActive="active-link" class="dropdown-item">Cart</a>
-                  </li>
-                </ul>
+                <a class="nav-link me-4" routerLink="Categories" routerLinkActive="active-link">Categories</a>
               </li>
+
+
+              
                <li class="nav-item">
                       <a class="nav-link me-4 " routerLink="cart" routerLinkActive="active-link" >
-                       Cart
+                       
+
+
+                       <i class="fa-solid fa-cart-shopping"></i>
+                        <span class="bg-info badge">{{ cartCounter }}</span>
                       </a>
                     </li>
                      <li class="nav-item">
@@ -205,62 +198,4 @@
 
 </body>
 
-<!-- <div class="container-fluid">
-    <a class="navbar-brand" routerLink="home">
-      <img src="" alt="fresh">
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
 
-        <li class="nav-item">
-          <a class="nav-link" routerLink="home" routerLinkActive="active-link" >Home</a>
-        </li>
-          <li class="nav-item">
-
-          <a class="nav-link" routerLink="products" routerLinkActive="active-link" >products</a>
-        </li>
-          <li class="nav-item">
-          <a class="nav-link" routerLink="cart" routerLinkActive="active-link" >cart</a>
-        </li>
-          <li class="nav-item">
-          <a class="nav-link" routerLink="categories" routerLinkActive="active-link" >categories</a>
-        </li>
-          <li class="nav-item">
-          <a class="nav-link" routerLink="brands" routerLinkActive="active-link" >brands</a>
-        </li>
-
-      </ul>
-      <ul class="navbar-nav ms-auto">
-
-          <li class="nav-item">
-          <a class="nav-link" >
-            <i class="fa-brands fa-facebook"></i>
-          </a>
-        </li>
-         <li class="nav-item">
-          <a class="nav-link" >
-            <i class="fa-brands fa-twitter"></i>
-          </a>
-        </li>
-         <li class="nav-item">
-          <a class="nav-link" >
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-        </li>
-         <li class="nav-item">
-          <a class="nav-link" >
-            <i class="fa-brands fa-linkedin"></i>
-          </a>
-        </li>
-         <li class="nav-item">
-          <a class="nav-link cr" (click)="_AuthServiceService.sinOut()" >
-           singOut
-          </a>
-        </li>
-
-      </ul>
-    </div>
-  </div> -->

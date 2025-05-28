@@ -3,52 +3,55 @@ import { ActivatedRoute } from '@angular/router';
 import { ProductsServiceService } from '../../services/products-service.service';
 import { IProduct } from '../../Interfaces/iproduct';
 import { CurrencyPipe } from '@angular/common';
+import { CartService } from '../../services/cart.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-details',
+  standalone: true, // مهم للـ standalone component
   imports: [CurrencyPipe],
   templateUrl: './details.component.html',
-  styleUrl: './details.component.scss'
+  styleUrls: ['./details.component.scss'] // تمت التصحيح هنا
 })
-export class DetailsComponent  {
-  private readonly _ActivatedRoute=inject(ActivatedRoute);
+export class DetailsComponent implements OnInit {
+  private _ActivatedRoute = inject(ActivatedRoute);
+  private _ProductsServiceService = inject(ProductsServiceService);
+  _CartService=inject(CartService);
+  _ToastrService=inject(ToastrService);
 
- private readonly _ProductsServiceService=inject(ProductsServiceService);
+  detailsProduct: IProduct | null = null;
 
- detailsProduct:IProduct|null=null;
+  ngOnInit(): void {
+    this._ActivatedRoute.paramMap.subscribe({
+      next: (params) => {
+        const productName = params.get('name');
+        console.log(productName);
 
-  // ngOnInit(): void {
-  //   this._ActivatedRoute.paramMap.subscribe({
-  //     next:(p)=>{
-  //       console.log(p.get('name'));
-  //       let ProductName=p.get('name');
-  //       this._ProductsServiceService.getProductByName(ProductName).subscribe({
-  //         next:(res)=>{
+        if (productName) {
+          this._ProductsServiceService.getProductByName(productName).subscribe({
+            next: (res) => {
+              this.detailsProduct = res.model;
+              console.log(this.detailsProduct);
+            },
+            error: (err) => {
+              console.error('Error fetching product:', err);
+            }
+          });
+        }
+      }
+    });
+  }
+   addToCart(qu:number,id:number):void{
+this._CartService.addItemToCart(qu,id).subscribe({
+  next:(res)=>{
+    this._ToastrService.success('Product Added To Cart Successfully');
+console.log(res);
+  },
+  error:(err)=>{
+    console.log(err);
 
-  //           this.detailsProduct=res.model;
-  //           console.log(this.detailsProduct);
+  }
+})
 
-<<<<<<< HEAD
-  //         },
-  //         error:(err)=>{
-  //          console.log(err);
-  //         }
-  //       })
-=======
-          },
-
-
-          
-          error:(err)=>{
-           console.log(err);
-          }
-        })
->>>>>>> 35a4794287240c099de3e47c510b0b823e0d31a0
-
-
-  //     }
-  //   })
-
-  // }
-
+  }
 }

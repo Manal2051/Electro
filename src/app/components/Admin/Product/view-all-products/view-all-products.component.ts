@@ -31,11 +31,11 @@ export class ViewAllProductsComponent implements OnInit {
 
   isLoading = true;
   errorMessage = '';
-  
+
 
   ngOnInit(): void {
     this.loadProduct();
-  
+
   }
 
   loadProduct(){
@@ -77,7 +77,7 @@ export class ViewAllProductsComponent implements OnInit {
     if (result.isConfirmed) {
       this._ProductsServiceService.deleteProduct(productId).subscribe({
         next: () => {
-        
+
           this._ProductsServiceService.getAllProduct(1, 20).subscribe({
             next: (res) => {
               this.productsList = res.model.items;
@@ -106,13 +106,6 @@ export class ViewAllProductsComponent implements OnInit {
     }
   });
 }
-
-
- 
- 
-
-    
-
 
 
 }

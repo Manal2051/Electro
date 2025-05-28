@@ -42,7 +42,7 @@ export const routes: Routes = [
     {path:'home',component:HomeComponent},
     {path:'products',component:ProductsComponent},
     {path:'cart',component:CartComponent},
-    {path:'categories/:name',component:CategoriesComponent},
+    {path:'Categories',component:CategoriesComponent},
     {path:'brands',component:BrandsComponent},
     {path:'details/:name',component:DetailsComponent},
 

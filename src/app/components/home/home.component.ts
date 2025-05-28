@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { ProductsServiceService } from '../../services/products-service.service';
 import { IProduct } from '../../Interfaces/iproduct';
 
@@ -9,6 +9,8 @@ import { CurrencyPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { CartService } from '../../services/cart.service';
+import { SharedDataService } from '../../services/shared-data.service';
 
 
 @Component({
@@ -18,30 +20,32 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit,OnDestroy {
-
-
-
-  _ProductsServiceService=inject(ProductsServiceService);
   _ToastrService=inject(ToastrService);
+  _ProductsServiceService=inject(ProductsServiceService);
+
   _NgxSpinnerService=inject(NgxSpinnerService);
+  
+_SharedDataService = inject(SharedDataService);
+
+   @Output() dataFromChild = new EventEmitter<number>();
+  counter:number=0;
+  _CartService=inject(CartService);
   productsList:IProduct[]=[];
   GetAllProductSub !:Subscription;
 categoryList!:[];
   ngOnInit(): void {
-    //this._NgxSpinnerService.show('load1');
+   
    this.GetAllProductSub= this._ProductsServiceService.getAllProduct(1,8).subscribe({
       next:(res)=>{
-        // this._ToastrService.info(res.model);
         this.productsList=res.model.items;
-     //   this._NgxSpinnerService.hide('load1');
         console.log(res.model.items);
       }
     })
+  
 
   }
 
-
-
+  
 
    customOptions: OwlOptions = {
     loop: true,
@@ -71,6 +75,28 @@ categoryList!:[];
 
    ngOnDestroy(): void {
     this.GetAllProductSub?.unsubscribe();
+
+  }
+
+  addToCart(qu:number,id:number):void{
+this._CartService.addItemToCart(qu,id).subscribe({
+  next:(res)=>{
+    this._ToastrService.success('Product Added To Cart Successfully');
+    this.counter += 1;
+      this.dataFromChild.emit(this.counter);
+      this._SharedDataService.updateCartCount(this.counter); 
+    //  console.log('counter from home', res.model.length);
+    
+
+   
+
+console.log('couter fron home',this.counter);
+  },
+  error:(err)=>{
+    console.log(err);
+
+  }
+})
 
   }
 }

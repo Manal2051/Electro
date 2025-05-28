@@ -14,8 +14,8 @@ export class AuthServiceService {
  // private readonly _HttpClient= inject(HttpClient);
  _Router= inject(Router);
 
- baseUrl:string='https://localhost:7154';
  userData:any;
+userId: string | null = null;
 
   setRegisterationForm(data:object):Observable<any>{
     return this._HttpClient.post(`${environment.baseUrl}/Account/Register`,data);//link api
@@ -33,8 +33,11 @@ export class AuthServiceService {
     {
 
       this.userData=jwtDecode(localStorage.getItem('userToken')!);
+       this.userId = this.userData['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
       console.log('userData',this.userData);
+      console.log('userId',this.userId);
     }
+
   }
 
   sinOut():void{

@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { IProduct } from '../../Interfaces/iproduct';
 import { ProductsServiceService } from '../../services/products-service.service';
 import { Subscription } from 'rxjs';
@@ -9,6 +9,9 @@ import { CurrencyPipe } from '@angular/common';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { CategoryService } from '../../services/category.service';
 import { ICategory } from '../../Interfaces/icategory';
+import { CartService } from '../../services/cart.service';
+import { ToastrService } from 'ngx-toastr';
+import { SharedDataService } from '../../services/shared-data.service';
 
 @Component({
   selector: 'app-products',
@@ -24,6 +27,10 @@ categoryName:string="";
   pageSize: number = 8;
   totalPages: number = 0;
   pages: number[] = [];
+  _SharedDataService = inject(SharedDataService);
+
+   @Output() dataFromChild = new EventEmitter<number>();
+  counter:number=0;
 
    customOptionsCat: OwlOptions = {
       loop: true,
@@ -57,6 +64,8 @@ categoryName:string="";
 _CategoryService=inject(CategoryService);
 
     _ProductsServiceService=inject(ProductsServiceService);
+    _CartService=inject(CartService);
+    _ToastrService=inject(ToastrService);
     productsList:IProduct[]=[];
     categoryList:ICategory[]=[];
     GetAllProductSub !:Subscription;
@@ -77,7 +86,7 @@ _CategoryService=inject(CategoryService);
 
 
     ngOnInit(): void {
-     this.GetAllCategorySub= this._CategoryService.getAllCategories().subscribe({
+     this.GetAllCategorySub= this._CategoryService.getAllCategory().subscribe({
         next:(res)=>{
           this.categoryList=res.model;
           console.log(res.model);
@@ -95,4 +104,26 @@ _CategoryService=inject(CategoryService);
 
     }
 
+
+   addToCart(qu:number,id:number):void{
+this._CartService.addItemToCart(qu,id).subscribe({
+  next:(res)=>{
+    this._ToastrService.success('Product Added To Cart Successfully');
+    this.counter += 1;
+      this.dataFromChild.emit(this.counter);
+      this._SharedDataService.updateCartCount(this.counter); 
+      console.log('counter from home', this.counter);
+   
+
+   
+
+console.log('couter fron home',this.counter);
+  },
+  error:(err)=>{
+    console.log(err);
+
+  }
+})
+
+  }
 }

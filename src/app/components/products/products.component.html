@@ -5,7 +5,7 @@
   <ng-template carouselSlide>
 
     <div>
-      <img [src]="cat.image" height="250" class="w-100" [alt]="cat.name">
+      <img [src]="cat.image" height="250"  class="w-100" [alt]="cat.name">
       <h3 class="fs-6">{{cat.name}}</h3>
     </div>
 
@@ -56,7 +56,7 @@
                     <span class="price-was">{{product.price-product.price*product.discountPercentage/100|currency}}</span>
                     <span class="price-now">{{product.price |currency}}</span>
                 </div>
-                <button class="product-button">
+                <button (click)="addToCart(1,product.id)" class="product-button">
                     <span class="button-text">Add to Cart</span>
                     <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>

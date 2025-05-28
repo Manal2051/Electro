@@ -11,4 +11,8 @@ import { FooterComponent } from "../../components/footer/footer.component";
 })
 export class BlankLayoutComponent {
 
+  handelChildData(data:number):void{
+    console.log('data from navbar',data);
+  }
+
 }

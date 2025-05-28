@@ -1,3 +1,112 @@
+<section class="my-5">
+<div class="my-5">
+  <owl-carousel-o [options]="customOptionsCat">
+  @for (cat of categoryList; track $index) {
+  <ng-template carouselSlide>
 
-<router-outlet></router-outlet>
-<p>categories works!</p>
+    <div>
+      <img [src]="cat.image" height="250" (click)="filterProducts(cat.name)"  class="w-100" [alt]="cat.name">
+      <h3 class="fs-6">{{cat.name}}</h3>
+    </div>
+
+  </ng-template>
+
+}
+</owl-carousel-o>
+</div>
+
+
+</section>
+
+<section class="my-5">
+  <h3 class="text-center mb-4">Product List</h3>
+  <div class="container">
+    <div class="row ">
+      @for (product of filteredProducts; track product.id) {
+         <div class="product-card">
+       <div class="product-badge">{{product.brandName}}</div>
+        <div class="product-tilt-effect">
+            <div class="product-image">
+               <img [src]="product.image" class="w-auto" [alt]="product.name" [routerLink]="['/details',product.name]" routerLinkActive="router-link-active" />
+                <!-- <img [src]="product."> -->
+            </div>
+        </div>
+        <div class="product-info">
+            <div class="product-category">{{product.categoryName}}</div>
+            <h2 class="product-title">{{product.name}}</h2>
+            <div class="product-description">
+                <p>{{product.description}}</p>
+            </div>
+            <div class="product-features">
+                <span class="feature"> {{product?.description?.split(',',1)?.slice()}}
+                    </span>
+                <span class="feature"> {{product?.description?.split(',',2)?.splice(1)}}</span>
+
+            </div>
+            <div class="product-bottom">
+                <div class="product-price">
+                    <span class="price-was">{{product.price-product.price*product.discountPercentage/100|currency}}</span>
+                    <span class="price-now">{{product.price |currency}}</span>
+                </div>
+                <button (click)="addToCart(1, product.id)" class="product-button">
+                    <span class="button-text">Add to Cart</span>
+                    <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="product-meta">
+                <div class="product-rating">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" stroke-width="0.5">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" stroke-width="0.5">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" stroke-width="0.5">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" stroke-width="0.5">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" stroke-width="0.5">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                    <span class="rating-count">128 Reviews</span>
+                </div>
+                <div class="product-stock">In Stock</div>
+            </div>
+        </div>
+         </div>
+
+
+
+
+
+      }
+    </div>
+  </div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  -->
