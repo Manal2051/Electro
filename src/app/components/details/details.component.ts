@@ -28,22 +28,14 @@ export class DetailsComponent  {
   //           this.detailsProduct=res.model;
   //           console.log(this.detailsProduct);
 
-<<<<<<< HEAD
-  //         },
-  //         error:(err)=>{
-  //          console.log(err);
-  //         }
-  //       })
-=======
-          },
+        //   },
 
 
           
-          error:(err)=>{
-           console.log(err);
-          }
-        })
->>>>>>> 35a4794287240c099de3e47c510b0b823e0d31a0
+        //   error:(err)=>{
+        //    console.log(err);
+        //   }
+        // })
 
 
   //     }

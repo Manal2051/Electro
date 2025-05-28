@@ -2,13 +2,15 @@
 /* @import url("https://cdnjs.cloudflare.com/ajax/libs/angular/12.2.17/core.umd.min.js"); */
 
 :host {
-  --blue: #2a2185;
+  --blue: #72AEC8;
   --white: #fff;
   --gray: #f5f5f5;
   --black1: #222;
   --black2: #999;
 }
-
+.color{
+  color:#7494EC
+}
 .navigation {
   position: fixed;
   width: 250px;

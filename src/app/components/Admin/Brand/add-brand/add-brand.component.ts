@@ -1,9 +1,10 @@
 import { ToastrService } from 'ngx-toastr';
-import { Component } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BrandService } from '../../../../services/brand.service';
 import { CommonModule } from '@angular/common';
 import { Ibrand } from '../../../../Interfaces/ibrand';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-add-brand',
@@ -12,6 +13,7 @@ import { Ibrand } from '../../../../Interfaces/ibrand';
   styleUrl: './add-brand.component.scss'
 })
 export class AddBrandComponent {
+   @Output() brandAdded = new EventEmitter<void>();
  isLoading = false;
   isSubmitting = false;
   errorMessage = '';
@@ -29,9 +31,12 @@ export class AddBrandComponent {
   get phone() { return this.brandForm.get('phone'); }
   get email() { return this.brandForm.get('email'); }
 
+
+
  
 
 addBrand() {
+      this.markFormGroupTouched();
   if (this.brandForm.status === 'VALID') {
     this.isSubmitting = true;
     this.errorMessage = '';
@@ -50,6 +55,7 @@ addBrand() {
         this.isSubmitting = false;
         this.successMessage = 'Brand added successfully!';
         this._ToastrService.success('Brand added successfully!');
+        this.brandAdded.emit(); 
 
         this.brandForm.reset();
       },
@@ -59,9 +65,7 @@ addBrand() {
        this._ToastrService.error('Failed to add brand!');
       }
     });
-  } else {
-    this.markFormGroupTouched();
-  }
+  } 
 }
 
 

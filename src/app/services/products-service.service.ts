@@ -1,3 +1,4 @@
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -9,17 +10,26 @@ import { environment } from '../environment/environment';
 })
 export class ProductsServiceService {
 
-
-   private readonly _HttpClient = inject(HttpClient);
+  private readonly _HttpClient = inject(HttpClient);
 
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('userToken');
     if (!token) {
       throw new Error('No authentication token found');
     }
-    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json');
   }
 
+  private getMultipartHeaders(): HttpHeaders {
+    const token = localStorage.getItem('userToken');
+    if (!token) {
+      throw new Error('No authentication token found');
+    }
+    // Don't set Content-Type for FormData - let the browser handle it
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
 
   getAllProduct(pageNumber: number, pageSize: number): Observable<any> {
     return this._HttpClient.get(
@@ -28,18 +38,31 @@ export class ProductsServiceService {
     );
   }
 
-  getProductById(id: string): Observable<IProduct> {
+  getProductById(id: number): Observable<IProduct> {
     return this._HttpClient.get<IProduct>(
       `${environment.baseUrl}/Product/ProductById/${id}`,
       { headers: this.getAuthHeaders() }
     );
   }
 
+  // Main update method with proper FormData structure
+  updateProduct(id: number, productData: FormData): Observable<any> {
+    console.log(`Calling PUT: ${environment.baseUrl}/Product/EditProduct/${id}`);
+    return this._HttpClient.put(
+      `${environment.baseUrl}/Product/EditProduct/${id}`,
+      productData,
+      { headers: this.getMultipartHeaders() }
+    );
+  }
 
-
-  getProductByName(name: string ): Observable<any> {
-    return this._HttpClient.get(
-      `${environment.baseUrl}/Product/ProductByName?name=${name}`,
+  // JSON-only update method (without file upload)
+  updateProductJson(id: number, productData: any): Observable<any> {
+    console.log(`Calling JSON PUT: ${environment.baseUrl}/Product/EditProduct/${id}`);
+    console.log('JSON Data:', productData);
+    
+    return this._HttpClient.put(
+      `${environment.baseUrl}/Product/EditProduct/${id}`,
+      productData,
       { headers: this.getAuthHeaders() }
     );
   }
@@ -48,19 +71,9 @@ export class ProductsServiceService {
     return this._HttpClient.post(
       `${environment.baseUrl}/Product/AddProduct`,
       product,
-      { headers: this.getAuthHeaders() }
+      { headers: this.getMultipartHeaders() }
     );
   }
-
-  updateProduct( productData: any): Observable<any> {
-    return this._HttpClient.put(
-      `${environment.baseUrl}/Product/EditProduct`,
-      productData,
-      { headers: this.getAuthHeaders() }
-    );
-  }
-
-
 
   deleteProduct(id: number): Observable<void> {
     return this._HttpClient.delete<void>(
@@ -69,13 +82,24 @@ export class ProductsServiceService {
     );
   }
 
- 
+  getProductByName(name: string): Observable<any> {
+    return this._HttpClient.get(
+      `${environment.baseUrl}/Product/ProductByName?name=${name}`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
 
-   
-   GetProductByCategoryName(name:string|null):Observable<any>{
-    return this._HttpClient.get(`${environment.baseUrl}/Product/ProductByCategoryName?name=${name}`);
-   }
-   GetProductByBrandName(name:string|null):Observable<any>{
-    return this._HttpClient.get(`${environment.baseUrl}/Product/ProductByBrandName?name=${name}`);
-   }
+  GetProductByCategoryName(name: string | null): Observable<any> {
+    return this._HttpClient.get(
+      `${environment.baseUrl}/Product/ProductByCategoryName?name=${name}`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  GetProductByBrandName(name: string | null): Observable<any> {
+    return this._HttpClient.get(
+      `${environment.baseUrl}/Product/ProductByBrandName?name=${name}`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
 }

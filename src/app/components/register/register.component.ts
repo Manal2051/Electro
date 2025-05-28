@@ -1,10 +1,11 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthServiceService } from '../../services/auth-service.service';
 import {  HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { EventEmitter } from '@angular/core';
 
 
 
@@ -86,12 +87,33 @@ matchPasswords(password: string, confirmPassword: string) {
   };
 }
 
+get firstName() {
+  return this.registerForm.get('firstName');  }
+
+  get lastName() {
+  return this.registerForm.get('lastName');  }
+
+  get userName() {
+  return this.registerForm.get('userName');  }  
+
+  get email() {
+  return this.registerForm.get('email');  }
+
+  get password() {
+  return this.registerForm.get('password');  }  
+
+  get confirmNewPassword() {
+  return this.registerForm.get('confirmNewPassword');  }
 
 
 
-  //to navigate to login
 
- // this._router.navigate(['/login'])
+//   //to navigate to login
+
+//  // this._router.navigate(['/login'])
+
+
+
 
 
 

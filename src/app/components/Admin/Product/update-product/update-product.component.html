@@ -1,15 +1,8 @@
-<p>update-product works!</p>
-
-<!-- Debug Information (Remove in production) -->
-<div class="alert alert-info" *ngIf="!isLoading">
-  <h5>Debug Info:</h5>
-  <p><strong>Product ID:</strong> {{ productId }}</p>
-  <p><strong>Product Name:</strong> {{ product.name }}</p>
-  <p><strong>Product Price:</strong> {{ product.price }}</p>
-  <p><strong>Product Stock:</strong> {{ product.stockAmount }}</p>
-  <p><strong>Category ID:</strong> {{ product.categoryId }}</p>
-  <p><strong>Brand ID:</strong> {{ product.brandId }}</p>
-  <button class="btn btn-sm btn-info" (click)="debugProduct()">Log Product to Console</button>
+<!-- Loading Spinner -->
+<div class="d-flex justify-content-center align-items-center" *ngIf="isLoading" style="min-height: 400px;">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
 </div>
 
 <div class="container" *ngIf="!isLoading">
@@ -19,7 +12,7 @@
         <div class="card-body">
           <h3 class="card-title mb-4 text-warning fw-bold">Edit Product</h3>
           
-          <form (ngSubmit)="updateProduct()">
+          <form (ngSubmit)="onSubmit()" #productForm="ngForm" enctype="multipart/form-data">
             <!-- Product Name -->
             <div class="mb-3">
               <label class="form-label">Product Name *</label>
@@ -30,6 +23,24 @@
                      required>
               <small class="text-muted">Current value: {{ product.name }}</small>
             </div>
+<h2>image</h2>
+            <!-- Image Preview -->
+            <div class="row mb-4">
+              <div class="col-md-4">
+                <div class="image-preview">
+                  <img [src]="product.imageUrl" 
+                       alt="Product Preview" 
+                       class="img-fluid rounded border" 
+                       style="max-height: 200px; width: 100%; object-fit: cover;">
+                </div>
+              </div>
+              <div class="col-md-8">
+                <label class="form-label">Product Images</label>
+                <input type="file" class="form-control" accept="image/*" multiple 
+                       (change)="onFileSelected($event)">
+                <small class="text-muted">Select one or more images for the product</small>
+              </div>
+            </div>
 
             <!-- Price -->
             <div class="mb-3">
@@ -39,6 +50,7 @@
                      [(ngModel)]="product.price" 
                      name="price" 
                      step="0.01" 
+                     min="0"
                      required>
               <small class="text-muted">Current value: {{ product.price }}</small>
             </div>
@@ -50,6 +62,7 @@
                      class="form-control" 
                      [(ngModel)]="product.stockAmount" 
                      name="stockAmount" 
+                     min="0"
                      required>
               <small class="text-muted">Current value: {{ product.stockAmount }}</small>
             </div>
@@ -63,7 +76,7 @@
                      name="discountPercentage" 
                      min="0" 
                      max="100">
-              <small class="text-muted">Current value: {{ product.discountPercentage }}</small>
+              <small class="text-muted">Current value: {{ product.discountPercentage || 0 }}</small>
             </div>
 
             <!-- Category -->
@@ -102,37 +115,26 @@
             <div class="mb-3">
               <label class="form-label">Description *</label>
               <textarea class="form-control" 
+                        rows="4" 
                         [(ngModel)]="product.description" 
                         name="description" 
-                        rows="4"
-                        placeholder="Enter product description..." 
                         required></textarea>
-              <small class="text-muted">Current value: {{ product.description }}</small>
+              <small class="text-muted">Current description length: {{ product.description?.length }}</small>
             </div>
 
+            <!-- Buttons -->
             <div class="d-flex justify-content-between">
-
-              <button type="submit" 
-                      class="btn text-light" 
-                      style="background-color: #2a2185">
-                Update Product
-              </button>
+              <button type="submit" class="btn btn-primary" [disabled]="isLoading">Update Product</button>
+              <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
             </div>
           </form>
+
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Loading Spinner -->
-<div class="container" *ngIf="isLoading">
-  <div class="row justify-content-center">
-    <div class="col-12 text-center">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <p class="mt-2">Loading product data...</p>
-    </div>
-  </div>
-</div>
+
+
+

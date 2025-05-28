@@ -10,6 +10,8 @@ import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { CategoryService } from '../../services/category.service';
 import { ICategory } from '../../Interfaces/icategory';
 
+
+
 @Component({
   selector: 'app-products',
   imports: [CarouselModule,FormsModule,SearchPipe,RouterLink,CurrencyPipe],
@@ -18,7 +20,11 @@ import { ICategory } from '../../Interfaces/icategory';
 })
 export class ProductsComponent implements OnInit ,OnDestroy {
 
+
+
   _searchName:string ="";
+  productsList: IProduct[] = [];
+  categoryList: ICategory[] = [];
 categoryName:string="";
   currentPage: number = 1;
   pageSize: number = 8;
@@ -57,8 +63,6 @@ categoryName:string="";
 _CategoryService=inject(CategoryService);
 
     _ProductsServiceService=inject(ProductsServiceService);
-    productsList:IProduct[]=[];
-    categoryList:ICategory[]=[];
     GetAllProductSub !:Subscription;
     GetAllCategorySub !:Subscription;
     generatePages() {
@@ -77,15 +81,18 @@ _CategoryService=inject(CategoryService);
 
 
     ngOnInit(): void {
-     this.GetAllCategorySub= this._CategoryService.getAllCategories().subscribe({
+     this.GetAllCategorySub= this._CategoryService.getAllCategory().subscribe({
         next:(res)=>{
           this.categoryList=res.model;
+
           console.log(res.model);
         }
       })
 
        this.loadProducts(this.currentPage);
         this.generatePages();
+
+          
 
     }
 
@@ -94,5 +101,11 @@ _CategoryService=inject(CategoryService);
       this.GetAllCategorySub?.unsubscribe();
 
     }
+
+
+  
+
+
+
 
 }

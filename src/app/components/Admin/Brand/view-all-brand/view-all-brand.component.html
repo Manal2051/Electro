@@ -1,5 +1,5 @@
 
-<div class="Brand-dashboard">
+<!-- <div class="Brand-dashboard">
   <div class="d-flex justify-content-between align-items-center">
 
         <div>
@@ -20,7 +20,7 @@
   
   </div>
 
-<!-- modal -->
+
        <div
       class="modal fade"
       id="exampleModal"
@@ -92,4 +92,134 @@
       </tbody>
     </table>
   }
+</div> -->
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow">
+
+        <!-- Card Header -->
+        <div class="card-header bg-white border-bottom">
+          <div class="row align-items-center">
+            <div class="col">
+              <h4 class="card-title mb-0">
+                <i class="fas fa-industry text-primary me-2"></i>
+                All Brands
+              </h4>
+              <p class="text-muted mb-0" *ngIf="!isLoading">
+                Total Brands: {{ filterBrand.length }}
+              </p>
+            </div>
+            <div class="col-auto d-flex gap-2">
+              <input type="search"
+                     [(ngModel)]="searchTerm"
+                     (input)="filterBrands()"
+                     class="form-control form-control-sm"
+                     placeholder="Search brand...">
+
+              <button class="btn btn-outline-primary btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal">
+                <i class="fas fa-plus me-1"></i>
+                Add Brand
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Body -->
+        <div class="card-body p-0">
+
+          <!-- Loading -->
+          <div *ngIf="isLoading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2 text-muted">Loading brands...</p>
+          </div>
+
+          <!-- Error -->
+          <div *ngIf="errorMessage && !isLoading" class="alert alert-danger m-3">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            {{ errorMessage }}
+          </div>
+
+          <!-- Empty -->
+          <div *ngIf="!isLoading && !errorMessage && filterBrand.length === 0" class="text-center py-5">
+            <i class="fas fa-tags fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">No Brands Found</h5>
+          </div>
+
+          <!-- Brands Table -->
+          <div *ngIf="!isLoading && !errorMessage && filterBrand.length > 0" class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>#</th>
+                  <th>Brand Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let brand of filterBrand; let i = index" class="align-middle">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ brand.name }}</td>
+                  <td>{{ brand.email }}</td>
+                  <td>
+                    <span class="badge bg-light text-dark">
+                      <i class="fas fa-phone me-1"></i>
+                      {{ brand.phone || 'N/A' }}
+                    </span>
+                  </td>
+                  <td>
+                    <button [routerLink]="['updateBrand', brand.id]"
+                            class="btn btn-sm btn-outline-primary me-2">
+                      <i class="fas fa-pen"></i>
+                    </button>
+                    <button (click)="deleteBrand(brand.id)"
+                            class="btn btn-sm btn-outline-danger">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Card Footer -->
+        <div class="card-footer bg-light" *ngIf="!isLoading && !errorMessage && filterBrand.length > 0">
+          <div class="row align-items-center">
+            <div class="col">
+              <small class="text-muted">
+                Showing {{ filterBrand.length }} brand{{ filterBrand.length !== 1 ? 's' : '' }}
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" style="max-width: 55%;">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Add New Brand</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body p-2">
+                <app-add-brand (brandAdded)="onBrandAdded()"></app-add-brand>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </div>

@@ -31,7 +31,12 @@ export class ViewAllCategoryComponent {
   constructor(private _CategoryService: CategoryService, private _ToastrService:ToastrService) {}
 
   ngOnInit(): void {
-    this._CategoryService.getAllCategory().subscribe({
+    this.loadCategories();
+
+  }
+
+  loadCategories() {
+        this._CategoryService.getAllCategory().subscribe({
       next: (res) => {
         console.log(res.model)
         this.categoryList = res.model;
@@ -45,6 +50,12 @@ export class ViewAllCategoryComponent {
       }
     });
   }
+
+  OnCategoryAdded(): void {
+    this.loadCategories(); 
+  }
+
+
 
   filterCategorys()
   {

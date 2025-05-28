@@ -1,5 +1,5 @@
 import { ToastrService } from 'ngx-toastr';
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CategoryService } from '../../../../services/category.service';
 
@@ -10,6 +10,8 @@ import { CategoryService } from '../../../../services/category.service';
   styleUrl: './add-category.component.scss'
 })
 export class AddCategoryComponent {
+
+   @Output() CategoryAdded = new EventEmitter<void>();
 
   selectedFile: File | null = null;
   selectedImagePreview: string | ArrayBuffer | null = null;
@@ -52,6 +54,7 @@ export class AddCategoryComponent {
           this.isSubmitting = false;
           this.successMessage = 'Category added successfully!';
           this._ToastrService.success('Category added successfully!')
+          this.CategoryAdded.emit();
           this.resetForm();
         },
         error: (error) => {

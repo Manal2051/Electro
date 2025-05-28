@@ -6,7 +6,6 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ProductsComponent } from './components/products/products.component';
-import { CartComponent } from './components/cart/cart.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { BrandsComponent } from './components/brands/brands.component';
 import { HomeComponent } from './components/home/home.component';
@@ -29,6 +28,7 @@ import { UpdateProductComponent } from './components/Admin/Product/update-produc
 
 
 
+
 export const routes: Routes = [
 
   {path:'',component:AuthLayoutComponent,canActivate:[loginGuard],children:[
@@ -41,7 +41,8 @@ export const routes: Routes = [
     {path:'',redirectTo:'home',pathMatch:'full'},
     {path:'home',component:HomeComponent},
     {path:'products',component:ProductsComponent},
-    {path:'cart',component:CartComponent},
+   
+
     {path:'categories/:name',component:CategoriesComponent},
     {path:'brands',component:BrandsComponent},
     {path:'details/:name',component:DetailsComponent},
@@ -73,12 +74,12 @@ export const routes: Routes = [
 
           { path: "ViewAllBrands", component: ViewAllBrandComponent, title: "View All Brand " },
           { path: "ViewAllBrand/addBrand", component: AddBrandComponent, title: "Add Brand" },
-          { path: "ViewAllBrand/updateBrand/:id", component: UpdateBrandComponent, title: "update Brand" },
+          { path: "ViewAllBrands/updateBrand/:id", component: UpdateBrandComponent, title: "update Brand" },
 
 
           { path: "ViewAllCategory", component: ViewAllCategoryComponent, title: "View All Category" },
           { path: "ViewAllCategory/addCategory", component: AddCategoryComponent, title: "Add Category" },
-          { path: "ViewAllCategory/updateCategor/:id", component: UpdateCategoryComponent, title: "Update Category" },
+          { path: "ViewAllCategory/updateCategory/:id", component: UpdateCategoryComponent, title: "Update Category" },
 
 
 

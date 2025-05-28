@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHandler, HttpRequest } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -9,6 +9,21 @@ import { environment } from '../environment/environment';
   providedIn: 'root'
 })
 export class AuthServiceService {
+  getCustomerId() {
+    throw new Error('Method not implemented.');
+  }
+//nesreen
+ intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const token = localStorage.getItem('token');
+    if (token) {
+      req = req.clone({
+        setHeaders: { Authorization: `Bearer ${token}` }
+      });
+    }
+    return next.handle(req);
+  }
+
+
  constructor(private _HttpClient: HttpClient) { }
 
  // private readonly _HttpClient= inject(HttpClient);

@@ -1,14 +1,14 @@
 import { CategoryService } from './../../../../services/category.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductsServiceService } from '../../../../services/products-service.service';
 import { ToastrService } from 'ngx-toastr';
 import { ICategory } from '../../../../Interfaces/icategory';
 import { BrandService } from '../../../../services/brand.service';
 import { Ibrand } from '../../../../Interfaces/ibrand';
-import { EventEmitter } from 'stream';
+import { EventEmitter } from '@angular/core';
 
 
 
@@ -20,6 +20,8 @@ import { EventEmitter } from 'stream';
   styleUrl: './add-product.component.scss'
 })
 export class AddProductComponent implements OnInit {
+
+   @Output() productAdded = new EventEmitter<void>();
 
   selectedImage: string | ArrayBuffer | null = 'assets/addProd.png';
   selectedFiles: FileList | null = null;
@@ -123,6 +125,7 @@ export class AddProductComponent implements OnInit {
     this.productService.addProduct(formData).subscribe({
       next: (response) => {
         this.toastr.success('Product added successfully');
+         this.productAdded.emit();
         this.resetForm();
         this.router.navigate(['dashboard/ViewAllProducts']);
       },

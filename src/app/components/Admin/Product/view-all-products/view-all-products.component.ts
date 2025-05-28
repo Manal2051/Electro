@@ -15,7 +15,7 @@ import { UpdateProductComponent } from "../update-product/update-product.compone
 @Component({
   selector: 'app-view-all-products',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, RouterLink, AddProductComponent, UpdateProductComponent],
+  imports: [CommonModule, RouterModule, FormsModule, RouterLink, AddProductComponent],
   templateUrl: './view-all-products.component.html',
   styleUrl: './view-all-products.component.css'
 })
@@ -54,6 +54,10 @@ export class ViewAllProductsComponent implements OnInit {
         console.error('Error fetching product:', err);
       }
     })
+  }
+
+  OnProductAdded(){
+    this.loadProduct();
   }
 
     filterProducts()

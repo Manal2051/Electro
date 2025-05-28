@@ -35,7 +35,7 @@ export class ViewAllBrandComponent {
       this.loadBrands();
   }
 
-    private loadBrands() {
+    loadBrands() {
     this.isLoading = true;
     this._BrandService.getAllBrand().subscribe({
       next: (res) => {
@@ -50,6 +50,10 @@ export class ViewAllBrandComponent {
       }
     });
   }
+
+  onBrandAdded(): void {
+  this.loadBrands(); 
+}
 
   filterBrands()
   {
