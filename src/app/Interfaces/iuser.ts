@@ -1,6 +1,6 @@
 export interface Iuser {
-  UserId: string;
+userId: string;
   userName: string;
-  phoneNumber: string;
+  phoneNumber: string ;
   registrationDate: string;
 }

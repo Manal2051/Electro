@@ -1,0 +1,142 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow">
+        <!-- Card Header -->
+        <div class="card-header bg-white border-bottom">
+          <div class="row align-items-center">
+            <div class="col">
+              <h4 class="card-title mb-0">
+                <i class="fas fa-users text-primary me-2"></i>
+                All Users
+              </h4>
+              <p class="text-muted mb-0" *ngIf="!isLoading">
+                Total Users: {{ totalUsers }}
+              </p>
+            </div>
+            <div class="col-auto">
+              <button 
+                class="btn btn-outline-primary btn-sm"
+                (click)="refreshUsers()"
+                [disabled]="isLoading">
+                <i class="fas fa-sync-alt me-1" [class.fa-spin]="isLoading"></i>
+                Refresh
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Body -->
+        <div class="card-body p-0">
+          <!-- Loading State -->
+          <div *ngIf="isLoading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2 text-muted">Loading users...</p>
+          </div>
+
+          <!-- Error State -->
+          <div *ngIf="errorMessage && !isLoading" class="alert alert-danger m-3" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            {{ errorMessage }}
+            <button type="button" class="btn btn-sm btn-outline-danger ms-2" (click)="refreshUsers()">
+              Try Again
+            </button>
+          </div>
+
+          <!-- Empty State -->
+          <div *ngIf="!isLoading && !errorMessage && users.length === 0" class="text-center py-5">
+            <i class="fas fa-users fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">No Users Found</h5>
+            <p class="text-muted">There are no users to display at the moment.</p>
+          </div>
+
+          <!-- Users Table -->
+          <div *ngIf="!isLoading && !errorMessage && users.length > 0" class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th scope="col" class="border-0">
+                    <i class="fas fa-hashtag me-1"></i>
+                    #
+                  </th>
+                  <th scope="col" class="border-0">
+                    <i class="fas fa-user me-1"></i>
+                    User Name
+                  </th>
+                  <th scope="col" class="border-0">
+                    <i class="fas fa-phone me-1"></i>
+                    Phone Number
+                  </th>
+                  <th scope="col" class="border-0">
+                    <i class="fas fa-calendar-alt me-1"></i>
+                    Registration Date
+                  </th>
+                  <th scope="col" class="border-0">
+                    <i class="fas fa-id-card me-1"></i>
+                    User ID
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of users; let i = index" class="align-middle">
+                  <th scope="row" class="text-muted">
+                    {{ i + 1 }}
+                  </th>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div class="avatar-sm bg-primary rounded-circle d-flex align-items-center justify-content-center me-2">
+                        <i class="fas fa-user text-white"></i>
+                      </div>
+                      <div>
+                        <h6 class="mb-0">{{ user.userName }}</h6>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span 
+                      class="badge bg-light text-dark"
+                      [class.bg-secondary]="!user.phoneNumber">
+                      <i class="fas fa-phone me-1"></i>
+                      {{ getDisplayPhoneNumber(user.phoneNumber) }}
+                    </span>
+                  </td>
+                  <td>
+                    <div class="text-sm">
+                      <div class="fw-medium">{{ formatDate(user.registrationDate) }}</div>
+                      <small class="text-muted">
+                        {{ formatDate(user.registrationDate).split(',')[1] }}
+                      </small>
+                    </div>
+                  </td>
+                  <td>
+                    <code class="bg-light px-2 py-1 rounded">
+                      {{ user.userId }}
+                    </code>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Card Footer -->
+        <div class="card-footer bg-light" *ngIf="!isLoading && !errorMessage && users.length > 0">
+          <div class="row align-items-center">
+            <div class="col">
+              <small class="text-muted">
+                Showing {{ users.length }} user{{ users.length !== 1 ? 's' : '' }}
+              </small>
+            </div>
+            <div class="col-auto">
+              <small class="text-muted">
+
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

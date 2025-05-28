@@ -61,9 +61,9 @@
                       (click)="resetForm()" [disabled]="isSubmitting">
                 Reset
               </button>
-              <button type="submit" class="btn text-light" 
+              <button type="submit"  class="btn text-light main-background-blue"
                       [disabled]="isSubmitting || categoryForm.invalid"
-                      style="background-color: #2a2185">
+                     >
                 @if (isSubmitting) {
                   <span class="spinner-border spinner-border-sm me-2"></span>
                 }

@@ -7,7 +7,8 @@ import { DashboardComponent } from '../../components/dashboard/dashboard.compone
 @Component({
   selector: 'app-dashboard-admin',
   standalone: true,
-  imports: [RouterOutlet,DashboardComponent],
+  imports: [RouterOutlet
+],
   templateUrl: './dashboard-admin.component.html',
   styleUrl: './dashboard-admin.component.css'
 })

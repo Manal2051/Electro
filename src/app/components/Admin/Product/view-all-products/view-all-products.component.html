@@ -1,83 +1,152 @@
-<div class="product-dashboard">
-  <div class="d-flex justify-content-between">
-   
-
-    <div>
-      <h2 class="fs-2 fw-bolder my-4">Product Dashboard</h2>
-
- <input [(ngModel)]="searchTerm"  (input)="filterProducts()"  class="form-control" placeholder="search" type="search" name="" id="">
-    </div>
-
-    <div>
-          <button
-      [routerLink]="['/dashboard/ViewAllProducts']"
-      type="button"
-      data-bs-toggle="modal"
-      data-bs-target="#exampleModal"
-      class="btn text-white fw-bolder fs-5 p-2 rounded-3"
-      style="background-color: #2a2185"
-    >
-      Add New Product
-    </button>
-    </div>
 
 
 
 
-  </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card shadow">
 
-  @if (isLoading) {
-    <div class="text-center py-4">Loading products...</div>
-  }
-  @else if (errorMessage) {
-    <div class="alert alert-danger text-center">{{ errorMessage }}</div>
-  }
+        <!-- Card Header -->
+        <div class="card-header bg-white border-bottom">
+          <div class="row align-items-center">
+            <div class="col">
+              <h4 class="card-title mb-0">
+                <i class="fas fa-box text-primary me-2"></i>
+                All Products
+              </h4>
+              <p class="text-muted mb-0" *ngIf="!isLoading">
+                Total Products: {{ filteredProducts.length }}
+              </p>
+            </div>
+            <div class="col-auto d-flex gap-2">
+              <input type="search"
+                     [(ngModel)]="searchTerm"
+                     (input)="filterProducts()"
+                     class="form-control form-control-sm"
+                     placeholder="Search products...">
 
-   @else if(filteredProducts.length === 0){
-  <div class="text-center py-4">No products found ...</div>
-  }@else {
-      <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Category</th>
-        <th>Brand</th>
-        <th>In Stock</th>
+              <button class="btn btn-outline-primary btn-sm"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal">
+                <i class="fas fa-plus me-1"></i>
+                Add Product
+              </button>
+            </div>
+          </div>
+        </div>
 
-        <th><div class="d-flex justify-content-between">Action</div></th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (product of filteredProducts; track $index) {
-
-        <tr >
-
-        <td> {{product.name}} </td>
-        <td>{{product.price}}</td>
-        <td> {{product.categoryName}} </td>
-        <td> {{product.brandName}} </td>
-        <td> {{product.stockAmount}} </td>
-        <td>
-          <div class="d-flex justify-content-between">
-          <button type="button" class="btn btn-blue  "
-            [routerLink]="['/dashboard/ViewAllProducts/updateProduct',product.id]"> Update</button>
-          <button type="button" class="btn btn-teal  "
-            [routerLink]="['/dashboard/ViewAllProducts/productDetails']"> Details</button>
-          <button type="button" class="btn btn-coral " > Delete</button>
+        <!-- Card Body -->
+        <div class="card-body p-0">
+          <!-- Loading State -->
+          <div *ngIf="isLoading" class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2 text-muted">Loading products...</p>
           </div>
 
-        </td>
-      </tr>
+          <!-- Error State -->
+          <div *ngIf="errorMessage && !isLoading" class="alert alert-danger m-3">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            {{ errorMessage }}
+          </div>
 
-      }
+          <!-- Empty State -->
+          <div *ngIf="!isLoading && !errorMessage && filteredProducts.length === 0" class="text-center py-5">
+            <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">No Products Found</h5>
+          </div>
 
-    </tbody>
-  </table>
+          <!-- Table -->
+          <div *ngIf="!isLoading && !errorMessage && filteredProducts.length > 0" class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>#</th>
+                  <th>Product Name</th>
+                  <th>Price</th>
+                  <th>Category</th>
+                  <th>Brand</th>
+                  <th>In Stock</th>
+                  <th>Image</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let product of filteredProducts; let i = index" class="align-middle">
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ product.name }}</td>
+                  <td>{{ product.price }}</td>
+                  <td>{{ product.categoryName }}</td>
+                  <td>{{ product.brandName }}</td>
+                  <td>
+                    <span class="badge bg-light text-dark">
+                      {{ product.stockAmount }}
+                    </span>
+                  </td>
+                  <td>
+                   
+                    <img [src]="product.image || 'assets/placeholder-image.png'"
+                         alt="{{ product.name }}"
+                         class="img-fluid rounded"
+                         style="max-width: 50px; max-height: 50px;">
+                  <td>
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-primary me-2"
+                      [routerLink]="['updateProduct', product.id]">
+                      <i class="fas fa-pen"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-info me-2"
+                      [routerLink]="['/dashboard/details', product.name]">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-danger"
+                      (click)="deleteProduct(product.id)">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-  }
+        <!-- Card Footer -->
+        <div class="card-footer bg-light" *ngIf="!isLoading && !errorMessage && filteredProducts.length > 0">
+          <div class="row align-items-center">
+            <div class="col">
+              <small class="text-muted">
+                Showing {{ filteredProducts.length }} product{{ filteredProducts.length !== 1 ? 's' : '' }}
+              </small>
+            </div>
+          </div>
+        </div>
 
+        <!-- Modal for Add Product -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" style="max-width: 70%;">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Add New Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body p-2">
+                <app-add-product (productAdded)="OnProductAdded()"></app-add-product>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
-
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,23 +1,30 @@
 import { Component, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { IProduct } from '../../Interfaces/iproduct';
+import { ICategory } from '../../Interfaces/icategory';
 import { ProductsServiceService } from '../../services/products-service.service';
+import { CategoryService } from '../../services/category.service';
+import { CartService } from '../../services/cart.service';
+import { SharedDataService } from '../../services/shared-data.service';
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { SearchPipe } from '../../pipes/search.pipe';
 import { RouterLink } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
-import { CategoryService } from '../../services/category.service';
-import { ICategory } from '../../Interfaces/icategory';
-import { CartService } from '../../services/cart.service';
-import { ToastrService } from 'ngx-toastr';
-import { SharedDataService } from '../../services/shared-data.service';
 
 @Component({
   selector: 'app-products',
-  imports: [CarouselModule,FormsModule,SearchPipe,RouterLink,CurrencyPipe],
+  standalone: true,
+  imports: [
+    CarouselModule,
+    FormsModule,
+    SearchPipe,
+    RouterLink,
+    CurrencyPipe
+  ],
   templateUrl: './products.component.html',
-  styleUrl: './products.component.scss'
+  styleUrls: ['./products.component.scss']
 })
 export class ProductsComponent implements OnInit ,OnDestroy {
 
@@ -111,11 +118,11 @@ this._CartService.addItemToCart(qu,id).subscribe({
     this._ToastrService.success('Product Added To Cart Successfully');
     this.counter += 1;
       this.dataFromChild.emit(this.counter);
-      this._SharedDataService.updateCartCount(this.counter); 
+      this._SharedDataService.updateCartCount(this.counter);
       console.log('counter from home', this.counter);
-   
 
-   
+
+
 
 console.log('couter fron home',this.counter);
   },

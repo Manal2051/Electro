@@ -1,1 +1,62 @@
-<p>update-brand works!</p>
+
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card shadow">
+        <div class="card-body">
+          <form (ngSubmit)="updateBrand()">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <div class="form-group">
+                    <label>Brand Name *</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="brand.name"
+                      name="name"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <div class="form-group">
+                    <label>Phone *</label>
+                    <input
+                      type="tel"
+                      class="form-control"
+                      [(ngModel)]="brand.phone"
+                      name="phone"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-md-12 mb-3">
+                  <div class="form-group">
+                    <label>Email *</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      [(ngModel)]="brand.email"
+                      name="email"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="btn text-light my-3"
+              style="background-color: #2a2185"
+            >
+              Update
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

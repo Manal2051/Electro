@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../environment/environment';
@@ -8,13 +8,22 @@ import { environment } from '../environment/environment';
 })
 export class UserService {
 
+
+
   constructor(private _HttpClient:HttpClient) { }
 
+     private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('userToken') || '';
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
 
-    getAllUsers():Observable<any>{
-      return this._HttpClient.get<any>(`${environment.baseUrl}/Admin/Users`);
-  
-    }
+
+  getAllUsers(): Observable<any> {
+    return this._HttpClient.get<any>(
+      `${environment.baseUrl}/Admin/Users`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
 
   
 }

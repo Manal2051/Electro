@@ -1,157 +1,280 @@
-import { Component } from '@angular/core';
+
+import { Component, OnInit } from '@angular/core';
 import { Ibrand } from '../../../../Interfaces/ibrand';
 import { ICategory } from '../../../../Interfaces/icategory';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsServiceService } from '../../../../services/products-service.service';
-
 import { ToastrService } from 'ngx-toastr';
 import { CategoryService } from '../../../../services/category.service';
 import { BrandService } from '../../../../services/brand.service';
 import { IProduct } from '../../../../Interfaces/iproduct';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { log } from 'node:console';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-update-product',
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './update-product.component.html',
-  styleUrl: './update-product.component.scss'
+  styleUrls: ['./update-product.component.scss']
 })
-export class UpdateProductComponent {
+export class UpdateProductComponent implements OnInit {
 
-   productId: string = '';
+  productId!: number;
   product: IProduct = {
-    imageUrl: '',
     id: 0,
     name: '',
-    description: '',
     price: 0,
     stockAmount: 0,
     discountPercentage: 0,
+    categoryId: 0,
+    brandId: 0,
+    description: '',
+    imageUrl: '',
     image: '',
     categoryName: '',
-    brandName: '',
-    categoryId: 0,
-    brandId: 0
+    brandName: ''
   };
-  
   categories: ICategory[] = [];
   brands: Ibrand[] = [];
   isLoading: boolean = true;
-  toastr: any;
+  selectedFile: File | null = null;
+  imagePreview: string | null = null;
 
   constructor(
     private _ActivatedRoute: ActivatedRoute,
-    private _ProductsServiceService: ProductsServiceService,
-    private _Router: Router,
-    private _ToastrService: ToastrService,
-    private _CategoryService: CategoryService,
-    private _BrandService: BrandService
-  ) { }
+    private router: Router,
+    private productsService: ProductsServiceService,
+    private toastr: ToastrService,
+    private categoryService: CategoryService,
+    private brandService: BrandService
+  ) {}
 
   ngOnInit(): void {
-    console.log('Component initialized');
     const id = this._ActivatedRoute.snapshot.paramMap.get('id');
-    console.log('Product ID from route:', id);
-    
+    console.log("Route ID:", id);
+
     if (id) {
-      this.productId = id;
-         console.log('Loading product data for ID:', this.productId);
-    
-    this._ProductsServiceService.getProductById(this.productId).subscribe({
-      next: (response:any) => {
-        console.log('Raw product data received:', response);
-        const foundProduct = response.model;
-        console.log('Found product:', foundProduct);
-        
-        if (foundProduct) {
-          // Direct assignment to ensure all properties are copied
-          this.product.id = foundProduct.id || 0;
-          this.product.name = foundProduct.name || '';
-          this.product.description = foundProduct.description || '';
-          this.product.price = foundProduct.price || 0;
-          this.product.stockAmount = foundProduct.stockAmount || 0;
-          this.product.discountPercentage = foundProduct.discountPercentage || 0;
-          this.product.imageUrl = foundProduct.imageUrl || '';
-          this.product.image = foundProduct.image || '';
-          this.product.categoryId = foundProduct.categoryId || 0;
-          this.product.brandId = foundProduct.brandId || 0;
-          this.product.categoryName = foundProduct.categoryName || '';
-          this.product.brandName = foundProduct.brandName || '';
-          
-          console.log('Product after assignment:', this.product);
-
-          
-          // Load categories and brands after product is loaded
-          this.loadCategories();
-          this.loadBrands();
-          
-          this.isLoading = false;
-        } else {
-          console.error('Product not found');
-          this._ToastrService.error('Product not found');
-          this._Router.navigate(['/dashboard/ViewAllProducts']);
-        }
-      },
-      error: (err: any) => {
-        console.error('Error fetching product:', err);
-        this._ToastrService.error('Error loading product data');
-        this.isLoading = false;
-      }
-    });
-
-  
+      this.productId = +id;
+      console.log("Product ID:", this.productId);
+      this.loadData();
+    } else {
+      this.toastr.error('Invalid product ID');
+      this.router.navigate(['/products']);
     }
   }
 
-
-
-
-  loadCategories() {
-    this._CategoryService.getAllCategory().subscribe({
-      next: (res) => {
-        this.categories = res.model;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.toastr.error('Failed to load categories');
-        this.isLoading = false;
-        console.log('Error loading categories:', err);
-      }
-    });
-  }
-
-  loadBrands() {
-    this._BrandService.getAllBrand().subscribe({
-      next: (res) => {
-        this.brands = res.model;
-      },
-      error: (err) => {
-        this.toastr.error('Failed to load brands');
-        console.log('Error loading brands:', err);
-      }
-    });
-  }
-
-  updateProduct() {
-    console.log('Updating product:', this.product);
+  private loadData(): void {
+    this.isLoading = true;
     
-    this._ProductsServiceService.updateProduct( this.product).subscribe({
-      next: () => {
-        this._ToastrService.success('Product updated successfully!');
-        this._Router.navigate(['/dashboard/ViewAllProducts']);
+    forkJoin({
+      product: this.productsService.getProductById(this.productId),
+      categories: this.categoryService.getAllCategory(),
+      brands: this.brandService.getAllBrand()
+    }).subscribe({
+      next: (response: any) => {
+        console.log("Combined response:", response);
+
+        // Handle product response
+        if (response.product?.model) {
+          this.product = { ...response.product.model };
+        } else if (response.product) {
+          this.product = { ...response.product };
+        }
+
+        // Handle categories response
+        if (response.categories?.model) {
+          this.categories = response.categories.model;
+        } else if (Array.isArray(response.categories)) {
+          this.categories = response.categories;
+        }
+
+        // Handle brands response
+        if (response.brands?.model) {
+          this.brands = response.brands.model;
+        } else if (Array.isArray(response.brands)) {
+          this.brands = response.brands;
+        }
+
+        console.log("Product loaded:", this.product);
+        console.log("Categories loaded:", this.categories.length);
+        console.log("Brands loaded:", this.brands.length);
+
+        this.isLoading = false;
       },
-      error: (err: any) => {
-        console.error('Error updating product:', err);
-        this._ToastrService.error('Error updating product');
+      error: (error) => {
+        console.error("Error loading data:", error);
+        this.toastr.error('Error loading product data');
+        this.isLoading = false;
+        this.router.navigate(['/products']);
       }
     });
   }
 
-  // Simple debug method to check current product state
-  debugProduct() {
-    console.log('Current product state:', this.product);
+  onSubmit(): void {
+    if (!this.isFormValid()) {
+      this.toastr.warning('Please fill in all required fields');
+      return;
+    }
+
+    this.isLoading = true;
+
+    // Try with image file first, then fallback to JSON-only update
+    if (this.selectedFile) {
+      console.log("Updating with new image file");
+      this.updateWithFormData();
+    } else {
+      console.log("Updating without image file (JSON only)");
+      this.updateWithJsonOnly();
+    }
   }
 
+  private updateWithFormData(): void {
+    const formData = new FormData();
+    
+    // Use the exact field names your API expects
+    formData.append('Id', this.product.id.toString());
+    formData.append('Name', this.product.name.trim());
+    formData.append('Price', this.product.price.toString());
+    formData.append('StockAmount', this.product.stockAmount.toString());
+    formData.append('DiscountPercentage', this.product.discountPercentage.toString());
+    formData.append('CategoryId', this.product.categoryId.toString());
+    formData.append('BrandId', this.product.brandId.toString());
+    formData.append('Description', this.product.description.trim());
+    
+    // Add the image file if selected
+    if (this.selectedFile) {
+      formData.append('ImageFile', this.selectedFile, this.selectedFile.name);
+    }
+
+    console.log("FormData contents:");
+    formData.forEach((value, key) => {
+      if (value instanceof File) {
+        console.log(key, `File: ${value.name} (${value.size} bytes)`);
+      } else {
+        console.log(key, value);
+      }
+    });
+
+    this.productsService.updateProduct(this.productId, formData).subscribe({
+      next: (response: any) => {
+        console.log("Update response:", response);
+        this.toastr.success('Product updated successfully!');
+        this.router.navigate(['/dashboard/ViewAllProducts']);
+      },
+      error: (error) => {
+        console.error("FormData update failed:", error);
+        this.handleUpdateError(error);
+        // Fallback to JSON-only update
+        this.updateWithJsonOnly();
+      }
+    });
+  }
+
+  private updateWithJsonOnly(): void {
+    const productData = {
+      id: this.product.id,
+      name: this.product.name.trim(),
+      price: this.product.price,
+      stockAmount: this.product.stockAmount,
+      discountPercentage: this.product.discountPercentage,
+      categoryId: this.product.categoryId,
+      brandId: this.product.brandId,
+      description: this.product.description.trim()
+    };
+
+    console.log("JSON-only update payload:", productData);
+
+    this.productsService.updateProductJson(this.productId, productData).subscribe({
+      next: (response: any) => {
+        console.log("JSON update response:", response);
+        this.toastr.success('Product updated successfully!');
+        this.router.navigate(['/dashboard/ViewAllProducts']);
+      },
+      error: (error) => {
+        console.error("JSON update failed:", error);
+        this.handleUpdateError(error);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  private handleUpdateError(error: any): void {
+    console.error("Update error details:", error);
+    
+    let errorMessage = 'Failed to update product';
+    
+    if (error.error) {
+      if (typeof error.error === 'string') {
+        errorMessage = error.error;
+      } else if (error.error.message) {
+        errorMessage = error.error.message;
+      } else if (error.error.errors) {
+        // Handle validation errors
+        const validationErrors = Object.values(error.error.errors).flat();
+        errorMessage = validationErrors.join(', ');
+      }
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+    
+    this.toastr.error(errorMessage);
+  }
+
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    
+    if (file) {
+      // Validate file type
+      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+      if (!allowedTypes.includes(file.type)) {
+        this.toastr.error('Please select a valid image file (JPEG, PNG, GIF)');
+        return;
+      }
+      
+      // Validate file size (max 5MB)
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxSize) {
+        this.toastr.error('File size must be less than 5MB');
+        return;
+      }
+      
+      this.selectedFile = file;
+      console.log("File selected:", file.name, file.size, file.type);
+      
+      // Create preview
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagePreview = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  private isFormValid(): boolean {
+    const requiredFields = {
+      name: this.product.name?.trim(),
+      price: this.product.price > 0,
+      stockAmount: this.product.stockAmount >= 0,
+      categoryId: this.product.categoryId > 0,
+      brandId: this.product.brandId > 0,
+      description: this.product.description?.trim()
+    };
+    
+    const isValid = Object.values(requiredFields).every(field => !!field);
+    
+    console.log("Form validation:", requiredFields, "Valid:", isValid);
+    
+    return isValid;
+  }
+
+  logProductToConsole(): void {
+    console.log("Current product state:", this.product);
+    console.log("Selected file:", this.selectedFile);
+  }
+
+  onCancel(): void {
+    this.router.navigate(['/dashboard/ViewAllProducts']);
+  }
 }
+

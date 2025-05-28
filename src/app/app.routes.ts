@@ -6,7 +6,6 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ProductsComponent } from './components/products/products.component';
-import { CartComponent } from './components/cart/cart.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { BrandsComponent } from './components/brands/brands.component';
 import { HomeComponent } from './components/home/home.component';
@@ -26,6 +25,7 @@ import { UpdateCategoryComponent } from './components/Admin/Category/update-cate
 import { ViewAllUsersComponent } from './components/Admin/User/view-all-users/view-all-users.component';
 
 import { UpdateProductComponent } from './components/Admin/Product/update-product/update-product.component';
+import { CartComponent } from './components/cart/cart.component';
 
 
 
@@ -48,9 +48,9 @@ export const routes: Routes = [
 
 
 
-    
+
   ]},
-  
+
 
 
 
@@ -73,20 +73,20 @@ export const routes: Routes = [
 
           { path: "ViewAllBrands", component: ViewAllBrandComponent, title: "View All Brand " },
           { path: "ViewAllBrand/addBrand", component: AddBrandComponent, title: "Add Brand" },
-          { path: "ViewAllBrand/updateBrand/:id", component: UpdateBrandComponent, title: "update Brand" },
+          { path: "ViewAllBrands/updateBrand/:id", component: UpdateBrandComponent, title: "update Brand" },
 
 
           { path: "ViewAllCategory", component: ViewAllCategoryComponent, title: "View All Category" },
           { path: "ViewAllCategory/addCategory", component: AddCategoryComponent, title: "Add Category" },
-          { path: "ViewAllCategory/updateCategor/:id", component: UpdateCategoryComponent, title: "Update Category" },
+          { path: "ViewAllCategory/updateCategory/:id", component: UpdateCategoryComponent, title: "Update Category" },
 
 
 
           { path: "ViewAllUsers", component: ViewAllUsersComponent, title: "View All Users" },
-  
-      
 
-        
+
+
+
 
         ]
       }

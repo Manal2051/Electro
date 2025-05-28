@@ -1,9 +1,10 @@
 import { AuthServiceService } from './../../services/auth-service.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Component, inject } from '@angular/core';
+import { Component, inject, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import {  HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 
 
@@ -60,4 +61,13 @@ export class LoginComponent {
       })
     }
   }
+
+  get email() {
+    return this.loginForm.get('email');
+  }
+  get password() {
+    return this.loginForm.get('password');
+}
+
+
 }
