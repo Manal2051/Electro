@@ -1,37 +1,37 @@
-
 :root {
-  --accent-color:             #717171;
-  --white-color:              #fff;
-  --black-color:              #000;
-  --gray-color:               #F3F3F3;
-  --gray-color-300:           #D8D8D8;
-  --gray-color-500:           #AEAEAE;
-  --gray-color-800:           #3A3A3A;
-  --light-gray-color:         #D7DDDF;
-  --primary-color:            #72AEC8;
-  --bs-primary-rgb:           114,174,200;
-  --light-color:              #f8f9fa;
-  --dark-color:               #212529;
-  --light-blue-color:         #EDF1F3;
-  --navbar-color-color:       #131814;
-  --swiper-theme-color:       #4A4A4A;
-  --swiper-pagination-color:  #4A4A4A;
-
+  --accent-color: #717171;
+  --white-color: #fff;
+  --black-color: #000;
+  --gray-color: #f3f3f3;
+  --gray-color-300: #d8d8d8;
+  --gray-color-500: #aeaeae;
+  --gray-color-800: #3a3a3a;
+  --light-gray-color: #d7dddf;
+  --primary-color: #72aec8;
+  --bs-primary-rgb: 114, 174, 200;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+  --light-blue-color: #edf1f3;
+  --navbar-color-color: #131814;
+  --swiper-theme-color: #4a4a4a;
+  --swiper-pagination-color: #4a4a4a;
 }
 
 @media screen and (max-width: 600px) {
-    :root {
-        --header-height : 100px;
-        --header-height-min   : 80px;
-    }
+  :root {
+    --header-height: 100px;
+    --header-height-min: 80px;
+  }
 }
 
 :root {
-    --body-font           : "Lato", sans-serif;
-    --heading-font        : "Jost", sans-serif;
+  --body-font: "Lato", sans-serif;
+  --heading-font: "Jost", sans-serif;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -51,7 +51,7 @@ p {
   color: var(--gray-color-500);
 }
 ul.inner-list li {
-   font-size: 1.2em;
+  font-size: 1.2em;
 }
 a {
   color: var(--dark-color);
@@ -68,16 +68,16 @@ a:hover {
 
 /*------------ Background Color -----------*/
 .bg-gray {
-    background: var(--gray-color);
+  background: var(--gray-color);
 }
 .bg-dark {
-    background: var(--dark-color);
+  background: var(--dark-color);
 }
 .bg-light {
-    background: var(--light-color);
+  background: var(--light-color);
 }
 .bg-light-blue {
-    background: var(--light-blue-color);
+  background: var(--light-blue-color);
 }
 
 /* - Section Padding
@@ -200,7 +200,7 @@ a:hover {
   background-color: transparent;
 }
 .btn.btn-outline-dark {
-  border-color: rgba(0,0,0,1);
+  border-color: rgba(0, 0, 0, 1);
   color: var(--dark-color);
 }
 .btn.btn-outline-dark:hover {
@@ -208,7 +208,7 @@ a:hover {
   color: var(--light-color);
 }
 .btn.btn-outline-light {
-  border-color: rgba(255,255,255,0.5);
+  border-color: rgba(255, 255, 255, 0.5);
   color: var(--light-color);
 }
 .btn.btn-outline-light:hover {
@@ -227,7 +227,7 @@ a:hover {
 }
 .btn.btn-full {
   display: block;
-  margin: .85em 0;
+  margin: 0.85em 0;
   width: 100%;
   letter-spacing: 0.12em;
 }
@@ -306,34 +306,33 @@ a:hover {
 /* - Search Bar
 ------------------------------------------------------------- */
 .search-box {
-    background: var(--gray-color);
-    position: relative;
+  background: var(--gray-color);
+  position: relative;
 }
 .close-button {
-    position: absolute;
-    top: 20px;
-    right: 120px;
-    cursor: pointer;
-    z-index: 9;
+  position: absolute;
+  top: 20px;
+  right: 120px;
+  cursor: pointer;
+  z-index: 9;
 }
 .search-box input.search-input {
-    font-size: 1.3em;
-    width: 70%;
-    height: 30px;
-    padding: 25px;
-    border-radius: 80px;
-    border-color: rgb(0 0 0 / 25%);
-    background: transparent;
+  font-size: 1.3em;
+  width: 70%;
+  height: 30px;
+  padding: 25px;
+  border-radius: 80px;
+  border-color: rgb(0 0 0 / 25%);
+  background: transparent;
 }
 .search-box svg {
-    width: 22px;
-    height: 22px;
-    color: var(--primary-color);
+  width: 22px;
+  height: 22px;
+  color: var(--primary-color);
 }
 .search-box svg.search {
-    margin-left: -50px;
+  margin-left: -50px;
 }
-
 
 /** Search Form
 --------------------------------------------------------------*/
@@ -374,8 +373,15 @@ a:hover {
 .search-popup.is-visible {
   opacity: 1;
   visibility: visible;
-  cursor: -webkit-image-set(url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23FFF' d='M20 1l-1-1-9 9-9-9-1 1 9 9-9 9 1 1 9-9 9 9 1-1-9-9'/%3E%3C/svg%3E") 1x, url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23000' d='M20 1l-1-1-9 9-9-9-1 1 9 9-9 9 1 1 9-9 9 9 1-1-9-9'/%3E%3C/svg%3E") 2x), pointer;
-  cursor: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23000' d='M20 1l-1-1-9 9-9-9-1 1 9 9-9 9 1 1 9-9 9 9 1-1-9-9'/%3E%3C/svg%3E"), pointer;
+  cursor: -webkit-image-set(
+      url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23FFF' d='M20 1l-1-1-9 9-9-9-1 1 9 9-9 9 1 1 9-9 9 9 1-1-9-9'/%3E%3C/svg%3E")
+        1x,
+      url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23000' d='M20 1l-1-1-9 9-9-9-1 1 9 9-9 9 1 1 9-9 9 9 1-1-9-9'/%3E%3C/svg%3E")
+        2x
+    ),
+    pointer;
+  cursor: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath fill='%23000' d='M20 1l-1-1-9 9-9-9-1 1 9 9-9 9 1 1 9-9 9 9 1-1-9-9'/%3E%3C/svg%3E"),
+    pointer;
   -webkit-transition: opacity 0.3s 0s, visibility 0s 0s;
   -moz-transition: opacity 0.3s 0s, visibility 0s 0s;
   transition: opacity 0.3s 0s, visibility 0s 0s;
@@ -408,7 +414,7 @@ a:hover {
   margin: 0 0 3em 0;
 }
 .search-popup-form .form-control {
-  padding: 0 0 .375em 0;
+  padding: 0 0 0.375em 0;
   font-size: 2em;
 }
 .search-popup-form #search-popup-submit {
@@ -433,10 +439,10 @@ a:hover {
   position: relative;
   width: 1em;
   height: 1em;
-  fill: rgba(0,0,0,0.5);
+  fill: rgba(0, 0, 0, 0.5);
 }
 .search-popup .search-popup-close:hover i {
-  fill: rgba(0,0,0,1);
+  fill: rgba(0, 0, 0, 1);
 }
 .search-popup .cat-list-title {
   margin-top: 40px;
@@ -469,8 +475,8 @@ a:hover {
   position: absolute;
   top: 100%;
   width: 100%;
-  -webkit-transition: height 0.3s,opacity 0.3s,-webkit-transform 0.3s;
-  transition: height 0.3s,opacity 0.3s,transform 0.3s;
+  -webkit-transition: height 0.3s, opacity 0.3s, -webkit-transform 0.3s;
+  transition: height 0.3s, opacity 0.3s, transform 0.3s;
   -webkit-transform: translateY(-5px);
   transform: translateY(-5px);
 }
@@ -498,7 +504,7 @@ a:hover {
   }
 }
 @media only screen and (max-width: 767px) {
-.search-popup .search-popup-close {
+  .search-popup .search-popup-close {
     top: 1em;
     right: 1em;
   }
@@ -534,51 +540,50 @@ a:hover {
   }
 }
 
-
 /* 2. Billboard
 /*----------------------------------------------*/
 /*------------Swiper Arrow -----------*/
 #billboard .swiper-arrow {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    z-index: 2;
-    display: flex;
-    align-items: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
 }
 .swiper-icon.swiper-arrow svg {
-    fill: var(--light-gray-color);
+  fill: var(--light-gray-color);
 }
 .swiper-icon.swiper-arrow:hover svg,
 .swiper-icon.swiper-arrow:focus svg {
-    fill: var(--primary-color);
+  fill: var(--primary-color);
 }
 #billboard .swiper-arrow.swiper-arrow-prev {
-    left: 0;
+  left: 0;
 }
 #billboard .swiper-arrow.swiper-arrow-next {
-    right: 0;
+  right: 0;
 }
 
 @media only screen and (max-width: 767px) {
   #billboard .banner-content {
-      margin-top: 210px;
+    margin-top: 210px;
   }
   #billboard .image-holder {
-      margin-top: -390px;
-      opacity: 0.3;
+    margin-top: -390px;
+    opacity: 0.3;
   }
   #billboard .swiper-arrow {
-      top: 400px;
+    top: 400px;
   }
 }
 
 /* 3. Icon Box - Company Services
 /*----------------------------------------------*/
 .icon-box .icon-box-icon svg {
-    width: 26px;
-    height: 26px;
-    fill: var(--primary-color);
+  width: 26px;
+  height: 26px;
+  fill: var(--primary-color);
 }
 
 @media only screen and (max-width: 991px) {
@@ -591,63 +596,54 @@ a:hover {
 /*----------------------------------------------*/
 /*------------ Social Icon -----------*/
 .social-links svg {
-    width: 20px;
-    height: 20px;
-    color: var(--light-gray-color);
+  width: 20px;
+  height: 20px;
+  color: var(--light-gray-color);
 }
 .social-links svg:hover {
-    color: var(--primary-color);
+  color: var(--primary-color);
 }
 .social-links li {
   padding-right: 30px;
 }
 
-
 /* ----------- SideBar -----------*/
 .sidebar input.search-field {
-    width: 290px;
-    height: 50px;
-    box-shadow: 5px 5px 15px 5px #eee;
-    border: 1px solid #eee;
-    padding-left: 20px;
-    outline-offset: 0;
+  width: 290px;
+  height: 50px;
+  box-shadow: 5px 5px 15px 5px #eee;
+  border: 1px solid #eee;
+  padding-left: 20px;
+  outline-offset: 0;
 }
 .sidebar .search-icon {
-    padding: 14px;
+  padding: 14px;
 }
 .sidebar svg.search {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
 .sidebar h5.widget-title {
-    font-size: 1.4em;
-    margin-bottom: 15px;
+  font-size: 1.4em;
+  margin-bottom: 15px;
 }
 .sidebar .sidebar-list li {
-    font-size: 1.2em;
+  font-size: 1.2em;
 }
 .sidebar .sidebar-list li a {
-    color: var(--dark-30);
+  color: var(--dark-30);
 }
 .sidebar .sidebar-list li a:hover {
-    color: var(--primary-color);
+  color: var(--primary-color);
 }
-
-
-
-
-
 
 /* 11. Checkout Page
 --------------------------------------------------------------*/
 .list-group-item span {
-    font-size: 1.2em;
+  font-size: 1.2em;
 }
-
-
 
 .faded-text {
   color: #999;
   font-size: 1.1em;
 }
-

@@ -1,76 +1,74 @@
-<div class="login-container   w-50 mx-auto p-4 my-5  shadow-lg rounded-4">
-  <h2 class="main-color-blue">Login</h2>
-  <div class="d-flex">
-    <div class="w-50">
-        <form [formGroup]="loginForm" (ngSubmit)="loginSubmit()">
-    <div class="my-2">
-      <label for="email">Email</label>
-      <input
-       formControlName="email"
-        type="email"
-        id="email"
-        class="form-control"
-        placeholder="Enter your email"  [class.is-invalid]="email?.invalid && email?.touched"
-          [class.is-valid]="email?.valid && email?.touched"
+<div class="d-flex justify-content-center align-items-center">
+  <div class="my-4 rounded-4 mt-5">
+    <div class="container">
+      <div class="form-box login">
+        <form form [formGroup]="loginForm" (ngSubmit)="loginSubmit()">
+          <h1>Login</h1>
+          <div class="input-box">
+            <input
+              type="email"
+              placeholder="Email"
+              required
+              formControlName="email"
+              type="email"
+              id="email"
+              class="form-control"
+              placeholder="Enter your email"
+              [class.is-invalid]="email?.invalid && email?.touched"
+              [class.is-valid]="email?.valid && email?.touched"
+            />
+            <i class="bx bxs-user"></i>
+          </div>
+          <div class="input-box">
+            <input
+              type="password"
+              placeholder="Password"
+              required
+              formControlName="password"
+              type="password"
+              id="password"
+              class="form-control"
+              placeholder="Enter your Password"
+              [class.is-invalid]="password?.invalid && password?.touched"
+              [class.is-valid]="password?.valid && password?.touched"
+            />
+            @if (loginForm.get('password')?.invalid &&
+            loginForm.get('password')?.touched) {
+            <div class="alert alert-danger w-100 mx-auto">
+              @if(loginForm.get('password')?.getError('required')){
+              <span class="m-0">Password is required</span>
+              } @else if (loginForm.get('password')?.getError('password')) {
+              <span class="m-0">enter valid Password</span>
 
-      />
-      @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
-        <div class="alert alert-danger w-100 mx-auto   ">
-          @if(loginForm.get('email')?.getError('required')){
-            <h6 class="m-0">email is required</h6>
-          }
-          @else if (loginForm.get('email')?.getError('email')) {
-             <span class="m-0">enter valid email</span>
+              }
+            </div>
+            }
+            <i class="bx bxs-lock-alt"></i>
+          </div>
+          <div class="forgot-link">
+            <a href="#">Forgot Password?</a>
+          </div>
+          <button type="submit" class="btn">Login</button>
+          <p>or login with social platforms</p>
+          <p>or register with social platforms</p>
+          <div class="social-icons">
+            <a href="#"><i class="bi bi-google"></i></a>
+            <a href="#"><i class="bi bi-facebook"></i></a>
+            <a href="#"><i class="bi bi-github"></i></a>
+            <a href="#"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </form>
+      </div>
 
-          }
-
+      <div class="toggle-box">
+        <div class="toggle-panel toggle-left">
+          <h1>Hello, Welcome!</h1>
+          <p>Don't have an account?</p>
+          <button class="btn register-btn" (click)="goToRegister()">
+            Register
+          </button>
         </div>
-      }
+      </div>
     </div>
-
-    <div class="my-2">
-      <label for="password">Password</label>
-      <input
-       formControlName="password"
-        type="password"
-        id="password"
-        class="form-control"
-        placeholder="Enter your Password" [class.is-invalid]="password?.invalid && password?.touched"
-           [class.is-valid]="password?.valid && password?.touched"
-
-      />
-      @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
-        <div class="alert alert-danger w-100 mx-auto">
-          @if(loginForm.get('password')?.getError('required')){
-            <span class="m-0 ">Password is required</span>
-          }
-          @else if (loginForm.get('password')?.getError('password')) {
-             <span class="m-0">enter valid Password</span>
-
-          }
-
-        </div>
-      }
-    </div>
-
-    <button type="submit" class="btn main-background-yellow border-0 fw-bolder text-light " [disabled]="isLoding || loginForm.invalid">
-      <span *ngIf="isLoding" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-      {{ isLoding ? 'Logging in...' : 'Login' }}
-    </button>
-
-  </form>
-
-    </div>
-    <div class="w-50">
-      <img src="login.jpg" alt="" class="w-100">
-
-    </div>
-
-
   </div>
-
 </div>
-
-
-
-

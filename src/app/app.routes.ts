@@ -1,4 +1,3 @@
-
 import { Routes } from '@angular/router';
 import { AuthLayoutComponent } from './Layouts/auth-layout/auth-layout.component';
 import { BlankLayoutComponent } from './Layouts/blank-layout/blank-layout.component';
@@ -27,75 +26,108 @@ import { ViewAllUsersComponent } from './components/Admin/User/view-all-users/vi
 import { UpdateProductComponent } from './components/Admin/Product/update-product/update-product.component';
 import { CartComponent } from './components/cart/cart.component';
 
-
+import { adminGuard } from './gards/admin.guard';
 
 export const routes: Routes = [
-
-  {path:'',component:AuthLayoutComponent,canActivate:[loginGuard],children:[
-     {path:'',redirectTo:'login',pathMatch:'full'},
-    {path:'login',component:LoginComponent},
-    {path:'register',component:RegisterComponent}
-  ]},
-
-  {path:'',component:BlankLayoutComponent,canActivate:[authGuard],children:[
-    {path:'',redirectTo:'home',pathMatch:'full'},
-    {path:'home',component:HomeComponent},
-    {path:'products',component:ProductsComponent},
-    {path:'cart',component:CartComponent},
-    {path:'Categories',component:CategoriesComponent},
-    {path:'brands',component:BrandsComponent},
-    {path:'details/:name',component:DetailsComponent},
-
-
-
-
-  ]},
-
-
-
+  {
+    path: '',
+    component: AuthLayoutComponent,
+    canActivate: [loginGuard],
+    children: [
+      { path: '', redirectTo: 'login', pathMatch: 'full' },
+      { path: 'login', component: LoginComponent },
+      { path: 'register', component: RegisterComponent },
+    ],
+  },
 
   {
-    path: '', loadComponent: () => import('./Layouts/dashboard-admin/dashboard-admin.component').then((m) => m.DashboardAdminComponent),
+    path: '',
+    component: BlankLayoutComponent,
+    canActivate: [authGuard],
+    children: [
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'home', component: HomeComponent },
+      { path: 'products', component: ProductsComponent },
+      { path: 'cart', component: CartComponent },
+      { path: 'Categories', component: CategoriesComponent },
+      { path: 'brands', component: BrandsComponent },
+      { path: 'details/:name', component: DetailsComponent },
+    ],
+  },
+
+  {
+    path: '',
+    loadComponent: () =>
+      import('./Layouts/dashboard-admin/dashboard-admin.component').then(
+        (m) => m.DashboardAdminComponent
+      ),
 
     children: [
-
       {
-        path: "dashboard", component: DashboardComponent, title: "dashboard",canActivate:[authGuard],
+        path: 'dashboard',
+        component: DashboardComponent,
+        title: 'dashboard',
+        canActivate: [authGuard, adminGuard],
 
         children: [
+          { path: '', redirectTo: 'ViewAllProducts', pathMatch: 'prefix' },
+          {
+            path: 'ViewAllProducts',
+            component: ViewAllProductsComponent,
+            title: 'View All Products',
+          },
+          {
+            path: 'ViewAllProducts/addProduct',
+            component: AddProductComponent,
+            title: 'Add Product',
+          },
+          {
+            path: 'ViewAllProducts/updateProduct/:id',
+            component: UpdateProductComponent,
+            title: 'update Product',
+          },
 
-          { path: "", redirectTo: "ViewAllProducts", pathMatch: 'prefix' },
-          { path: "ViewAllProducts", component: ViewAllProductsComponent, title: "View All Products" },
-          { path: "ViewAllProducts/addProduct", component: AddProductComponent, title: "Add Product" },
-          { path: "ViewAllProducts/updateProduct/:id", component: UpdateProductComponent, title: "update Product" },
+          {
+            path: 'ViewAllBrands',
+            component: ViewAllBrandComponent,
+            title: 'View All Brand ',
+          },
+          {
+            path: 'ViewAllBrand/addBrand',
+            component: AddBrandComponent,
+            title: 'Add Brand',
+          },
+          {
+            path: 'ViewAllBrands/updateBrand/:id',
+            component: UpdateBrandComponent,
+            title: 'update Brand',
+          },
 
+          {
+            path: 'ViewAllCategory',
+            component: ViewAllCategoryComponent,
+            title: 'View All Category',
+          },
+          {
+            path: 'ViewAllCategory/addCategory',
+            component: AddCategoryComponent,
+            title: 'Add Category',
+          },
+          {
+            path: 'ViewAllCategory/updateCategory/:id',
+            component: UpdateCategoryComponent,
+            title: 'Update Category',
+          },
 
+          {
+            path: 'ViewAllUsers',
+            component: ViewAllUsersComponent,
+            title: 'View All Users',
+          },
+        ],
+      },
+    ],
+  },
 
-          { path: "ViewAllBrands", component: ViewAllBrandComponent, title: "View All Brand " },
-          { path: "ViewAllBrand/addBrand", component: AddBrandComponent, title: "Add Brand" },
-          { path: "ViewAllBrands/updateBrand/:id", component: UpdateBrandComponent, title: "update Brand" },
-
-
-          { path: "ViewAllCategory", component: ViewAllCategoryComponent, title: "View All Category" },
-          { path: "ViewAllCategory/addCategory", component: AddCategoryComponent, title: "Add Category" },
-          { path: "ViewAllCategory/updateCategory/:id", component: UpdateCategoryComponent, title: "Update Category" },
-
-
-
-          { path: "ViewAllUsers", component: ViewAllUsersComponent, title: "View All Users" },
-
-
-
-
-
-        ]
-      }
-
-
-    ]
-  }
-
-
-  ,
-  {path:'**', component:NotfoundComponent}
+  { path: '**', component: NotfoundComponent },
 ];

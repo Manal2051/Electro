@@ -12,83 +12,71 @@ import { CartService } from '../../services/cart.service';
 import { ToastrService } from 'ngx-toastr';
 import { SharedDataService } from '../../services/shared-data.service';
 
-
 @Component({
   selector: 'app-brands',
-  imports: [CommonModule, FormsModule, RouterLink,SearchPipe, CurrencyPipe],
+  imports: [CommonModule, FormsModule, RouterLink, SearchPipe, CurrencyPipe],
   templateUrl: './brands.component.html',
-  styleUrl: './brands.component.scss'
+  styleUrls: ['./brands.component.scss']
 })
 export class BrandsComponent implements OnInit, OnDestroy {
-  _searchName:string ="";
-   categoryList:ICategory[]=[];
-    filteredProducts:IProduct[]=[];
-    GetAllProductSub !:Subscription;
-    GetAllCategorySub!: Subscription;
- _ProductsServiceService=inject(ProductsServiceService);
- _CartService=inject(CartService);
-_BrandService=inject(BrandService);
-_ToastrService=inject(ToastrService);
-_SharedDataService = inject(SharedDataService);
 
-   @Output() dataFromChild = new EventEmitter<number>();
-  counter:number=0;
+  _searchName: string = "";
+  brandList: ICategory[] = [];
+  filteredProducts: IProduct[] = [];
+  GetAllProductSub?: Subscription;
+  GetAllBrandSub!: Subscription;
 
-    ngOnInit(): void {
-     this.GetAllCategorySub= this._BrandService.getAllBrand().subscribe({
-        next:(res)=>{
-          this.categoryList=res.model;
-          console.log(res.model);
-        }
-      })
+  _ProductsServiceService = inject(ProductsServiceService);
+  _CartService = inject(CartService);
+  _BrandService = inject(BrandService);
+  _ToastrService = inject(ToastrService);
+  _SharedDataService = inject(SharedDataService);
 
-    }
-   filterProducts(name: string | null) {
-  if (!name) {
-  
-    this._ProductsServiceService.getAllProduct(1,9).subscribe({
-      next: (res) => this.filteredProducts = res.model.slice(0, 9)
-    });
-  } else {
-    this._ProductsServiceService.GetProductByBrandName(name).subscribe({
-      next: (res) => this.filteredProducts = res.model.slice(0, 9)
+  @Output() dataFromChild = new EventEmitter<number>();
+  counter: number = 0;
+
+  ngOnInit(): void {
+    this.GetAllBrandSub = this._BrandService.getAllBrand().subscribe({
+      next: (res) => {
+        this.brandList = res.model;
+        console.log("Brands:", res.model);
+      }
     });
   }
-}
-onBrandChange(event: Event): void {
-  const value = (event.target as HTMLSelectElement).value;
-  this.filterProducts(value);
-}
 
-
-
-   addToCart(qu:number,id:number):void{
-this._CartService.addItemToCart(qu,id).subscribe({
-  next:(res)=>{
-    this._ToastrService.success('Product Added To Cart Successfully');
-    this.counter += 1;
-      this.dataFromChild.emit(this.counter);
-      this._SharedDataService.updateCartCount(this.counter); // 👈 هنا
-      console.log('counter from home', this.counter);
-   
-
-   
-
-console.log('couter fron home',this.counter);
-  },
-  error:(err)=>{
-    console.log(err);
-
-  }
-})
-
-  }
-      ngOnDestroy(): void {
-      this.GetAllProductSub?.unsubscribe();
-
-
+  filterProducts(name: string | null): void {
+    if (!name) {
+      this.GetAllProductSub = this._ProductsServiceService.getAllProduct(1, 9).subscribe({
+        next: (res) => this.filteredProducts = res.model.slice(0, 9)
+      });
+    } else {
+      this.GetAllProductSub = this._ProductsServiceService.GetProductByBrandName(name).subscribe({
+        next: (res) => this.filteredProducts = res.model.slice(0, 9)
+      });
     }
+  }
 
+  onBrandChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+    this.filterProducts(value);
+  }
 
+  addToCart(qu: number, id: number): void {
+    this._CartService.addItemToCart(qu, id).subscribe({
+      next: () => {
+        this._ToastrService.success('Product Added To Cart Successfully');
+        this.counter += 1;
+        this.dataFromChild.emit(this.counter);
+        this._CartService.refreshCartCount(); // ✅ الأفضل استخدام هذه الطريقة
+      },
+      error: (err) => {
+        console.error("Add to cart error", err);
+      }
+    });
+  }
 
+  ngOnDestroy(): void {
+    this.GetAllProductSub?.unsubscribe();
+    this.GetAllBrandSub?.unsubscribe();
+  }
 }
